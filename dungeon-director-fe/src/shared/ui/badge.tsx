@@ -9,10 +9,10 @@ type BadgeProps = HTMLAttributes<HTMLDivElement> & {
 }
 
 const variantClassName: Record<BadgeVariant, string> = {
-  default: 'border-slate-700 bg-slate-900 text-slate-300',
-  secondary: 'border-slate-800 bg-slate-950 text-slate-500',
-  success: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400',
-  warning: 'border-amber-500/20 bg-amber-500/10 text-amber-400',
+  default: 'border-slate-600 bg-slate-950 text-slate-300',
+  secondary: 'border-slate-700 bg-slate-900 text-slate-500',
+  success: 'border-emerald-400 bg-emerald-950 text-emerald-300',
+  warning: 'border-orange-400 bg-orange-950 text-orange-300',
 }
 
 export function Badge({
@@ -23,7 +23,7 @@ export function Badge({
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold',
+        'inline-flex items-center border-2 px-3 py-1 font-mono text-xs font-black tracking-wide uppercase',
         variantClassName[variant],
         className,
       )}

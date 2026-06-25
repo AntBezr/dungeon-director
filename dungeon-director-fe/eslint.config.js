@@ -11,12 +11,71 @@ export default defineConfig([
     files: ['**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
-      tseslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
     languageOptions: {
       globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    files: ['src/shared/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@app/*', '@pages/*', '@widgets/*', '@features/*', '@entities/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/entities/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@app/*', '@pages/*', '@widgets/*', '@features/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/features/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@app/*', '@pages/*', '@widgets/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/widgets/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@app/*', '@pages/*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/pages/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['@app/*'],
+        },
+      ],
     },
   },
 ])

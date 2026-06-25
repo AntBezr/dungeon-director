@@ -23,6 +23,14 @@ import { HomePage } from '@pages/home'
 import { cn } from '@shared/lib/cn'
 ```
 
+ESLint enforces the layer direction for alias imports:
+
+```text
+app -> pages -> widgets -> features -> entities -> shared
+```
+
+Lower layers cannot import higher layers.
+
 ## Suggested Slice Shape
 
 Start with only what you need:
@@ -46,3 +54,10 @@ Shared shadcn-style primitives live in `shared/ui` and are imported through the 
 ```ts
 import { Button, Card, Input } from '@shared/ui'
 ```
+
+## Type Safety
+
+TypeScript runs with `strict: true`. ESLint uses type-aware
+`typescript-eslint` rules, so `pnpm lint` needs the project TypeScript config
+and may catch async, promise, and unsafe typing issues that plain syntax linting
+would miss.
