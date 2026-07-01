@@ -1,74 +1,10 @@
 import { Archive, FolderOpen, Plus } from 'lucide-react';
 
-import { Badge, Button, Card, CardFooter, CardHeader } from '@shared/ui';
+import { Badge, Button, Card } from '@shared/ui';
+import { campaigns } from '../mock/CompaignCards';
+import { CampaignCard } from './CompaignCard';
 
 const filters = ['All campaigns', 'Drafts', 'Recent']
-
-const campaigns = [
-  {
-    status: 'LIVE TABLE',
-    statusTone: 'success',
-    title: 'Ashfall Cartography',
-    details: '12 scenes · 4 active notes',
-    description: 'Last session 2h ago',
-    footerLeft: 'Session 18 queued',
-    footerRight: 'Autosaved',
-    footerTone: 'text-emerald-400',
-  },
-  {
-    status: 'PREP MODE',
-    statusTone: 'default',
-    title: 'Signal Under Glass',
-    details: '7 scenes · 22 references',
-    description: 'Timeline locked for next session',
-    footerLeft: '3 blockers',
-    footerRight: 'Need scene beats',
-    footerTone: 'text-amber-400',
-  },
-  {
-    status: 'ON HOLD',
-    statusTone: 'secondary',
-    title: 'The Seventh Relay',
-    details: '5 scenes · 1 encounter',
-    description: 'draft · Imported from archive branch',
-    footerLeft: 'Paused after session 3',
-    footerRight: 'Resume when ready',
-    footerTone: 'text-slate-500',
-  },
-] as const
-
-function CampaignCard({ campaign }: { campaign: (typeof campaigns)[number] }) {
-  return (
-    <Card className="flex min-h-43.5 flex-col justify-between ">
-      <CardHeader>
-        <Badge
-          variant={campaign.statusTone}
-          className="w-fit border-none bg-transparent px-0 py-0 text-[11px] font-bold"
-        >
-          {campaign.status}
-        </Badge>
-        <div>
-          <h3 className="text-lg font-bold tracking-normal text-slate-100">
-            {campaign.title}
-          </h3>
-          <p className="mt-2 text-xs leading-5 text-slate-400">
-            {campaign.details}
-            <br />
-            {campaign.description}
-          </p>
-        </div>
-      </CardHeader>
-      <CardFooter>
-        <span className="text-xs font-semibold text-slate-300">
-          {campaign.footerLeft}
-        </span>
-        <span className={`text-xs font-bold ${campaign.footerTone}`}>
-          {campaign.footerRight}
-        </span>
-      </CardFooter>
-    </Card>
-  )
-}
 
 function ArchivedCampaignsEmptyState() {
   return (
