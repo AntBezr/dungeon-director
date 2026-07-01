@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react'
+import type { ComponentProps, HTMLAttributes } from 'react'
 
 import { cn } from '@shared/lib'
 
@@ -18,7 +18,50 @@ export function CardHeader({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('space-y-2 p-4', className)} {...props} />
+  return (
+    <div
+      className={cn(
+        'grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 p-4 has-data-[slot=card-action]:grid-cols-[1fr_auto]',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+export function CardTitle({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn('font-mono text-base font-bold uppercase', className)}
+      {...props}
+    />
+  )
+}
+
+export function CardDescription({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('text-sm text-slate-400', className)} {...props} />
+}
+
+export function CardAction({
+  className,
+  ...props
+}: ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn(
+        'col-start-2 row-span-2 row-start-1 self-start justify-self-end',
+        className,
+      )}
+      data-slot="card-action"
+      {...props}
+    />
+  )
 }
 
 export function CardContent({

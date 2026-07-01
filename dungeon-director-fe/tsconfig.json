@@ -1,4 +1,24 @@
 {
+  "compilerOptions": {
+    "paths": {
+      "@app/*": ["./src/app/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@widgets/*": ["./src/widgets/*"],
+      "@features/*": ["./src/features/*"],
+      "@entities/*": ["./src/entities/*"],
+      "@shared/*": ["./src/shared/*"],
+      "components": ["./src/components"],
+      "components/*": ["./src/components/*"],
+      "ui": ["./src/components/ui"],
+      "ui/*": ["./src/components/ui/*"],
+      "lib": ["./src/lib"],
+      "lib/*": ["./src/lib/*"],
+      "hooks": ["./src/hooks"],
+      "hooks/*": ["./src/hooks/*"],
+      "utils": ["./src/lib/utils"],
+      "utils/*": ["./src/utils/*"]
+    }
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
