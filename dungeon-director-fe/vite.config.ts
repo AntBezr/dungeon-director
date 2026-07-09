@@ -15,7 +15,7 @@ export default defineConfig({
       '@entities': fileURLToPath(new URL('./src/entities', import.meta.url)),
       '@shared': fileURLToPath(new URL('./src/shared', import.meta.url)),
       components: fileURLToPath(new URL('./src/components', import.meta.url)),
-      ui: fileURLToPath(new URL('./src/components/ui', import.meta.url)),
+      ui: fileURLToPath(new URL('./src/shared/ui', import.meta.url)),
       lib: fileURLToPath(new URL('./src/lib', import.meta.url)),
       hooks: fileURLToPath(new URL('./src/hooks', import.meta.url)),
       utils: fileURLToPath(new URL('./src/lib/utils.ts', import.meta.url)),
