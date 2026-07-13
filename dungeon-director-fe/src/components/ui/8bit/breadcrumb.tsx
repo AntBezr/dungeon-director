@@ -15,7 +15,7 @@ import {
 
 import "ui/8bit/styles/retro.css";
 
-const breadcrumbVariants = cva("", {
+export const breadcrumbVariants = cva("", {
   variants: {
     font: {
       normal: "",
