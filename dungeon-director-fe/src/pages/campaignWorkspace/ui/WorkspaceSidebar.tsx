@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader } from '@shared/ui';
+import { Button, Card, CardHeader } from 'ui';
 
 const navItems = ['Overview', 'Scene Timeline', 'Assets', 'Session Notes']
 

@@ -1,4 +1,4 @@
-import { Badge, Input, Textarea } from '@shared/ui'
+import { Badge, Input, Textarea } from 'ui'
 
 export function ScenePropertiesPanel() {
   return (

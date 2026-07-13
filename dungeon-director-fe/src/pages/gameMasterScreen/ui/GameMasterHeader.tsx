@@ -1,6 +1,6 @@
 import { Maximize2, Settings } from 'lucide-react'
 
-import { Button } from '@shared/ui'
+import { Button } from 'ui'
 
 export function GameMasterHeader() {
   return (

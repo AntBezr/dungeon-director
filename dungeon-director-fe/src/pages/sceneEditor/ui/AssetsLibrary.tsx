@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 
-import { Card, CardContent, Input } from '@shared/ui'
+import { Card, CardContent, Input } from 'ui'
 
 const npcAssets = [
   {

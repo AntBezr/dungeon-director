@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 
-import { Badge, Card, CardContent, Input } from '@shared/ui'
+import { Badge, Card, CardContent, Input } from 'ui'
 
 const actors = [
   {

@@ -1,4 +1,4 @@
-import { Badge, Button } from '@shared/ui'
+import { Badge, Button } from 'ui'
 
 const sceneQueue = [
   ['01 Chapel Interior', 'Armed', 'text-orange-500'],

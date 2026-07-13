@@ -1,4 +1,4 @@
-import { Badge, Button } from '@shared/ui'
+import { Badge, Button } from 'ui'
 
 export function SceneEditorHeader() {
   return (

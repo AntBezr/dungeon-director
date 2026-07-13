@@ -1,6 +1,6 @@
 import { Plus, Radio, ScreenShare } from 'lucide-react';
 
-import { Badge, Button, Card, CardContent, CardHeader } from '@shared/ui';
+import { Badge, Button, Card, CardContent, CardHeader } from 'ui';
 
 const scenes = [
   {
