@@ -1,16 +1,31 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 
-import { App } from '@app/App'
+import { Providers } from '@app/providers'
+import { router } from '@app/router'
 import '@app/styles/index.css'
+import { RouterProvider } from 'react-router-dom'
 
-document.body.className = 'bg-white dark:bg-zinc-950'
+document.body.className = 'bg-zinc-950'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+async function enableMocking() {
+  if (!import.meta.env.DEV) {
+    return
+  }
+
+  const { worker } = await import('@app/mocks/browser')
+
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  })
+}
+// eslint-disable-next-line
+enableMocking().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Providers>
+        <RouterProvider router={router} />
+      </Providers>
+    </StrictMode>,
+  )
+})
