@@ -1,6 +1,6 @@
-import { Plus, Radio, ScreenShare } from 'lucide-react';
+import { Plus, Radio, ScreenShare } from 'lucide-react'
 
-import { Badge, Button, Card, CardContent, CardHeader } from 'ui';
+import { Badge, Button, Card, CardContent, CardHeader } from 'ui/8bit'
 
 const scenes = [
   {
@@ -28,12 +28,12 @@ const scenes = [
 
 function SceneCard({ scene }: { scene: (typeof scenes)[number] }) {
   return (
-    <Card className="">
+    <Card className="border-slate-800 bg-slate-900/50 transition-transform hover:-translate-y-0.5 hover:border-slate-600">
       <CardHeader className="p-4">
         <div className="flex items-center justify-between gap-4">
           <Badge
             variant="secondary"
-            className="border-none bg-transparent px-0 py-0 text-[11px] font-bold tracking-wide text-slate-500"
+            className="border-none bg-transparent px-0 py-0 text-[11px] font-bold tracking-wide text-orange-400"
           >
             {scene.number}
           </Badge>
@@ -59,18 +59,18 @@ function WorkspaceRightRail() {
   return (
     <aside className="space-y-4">
       <div className="flex justify-end gap-2">
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="text-xs">
           Focus mode
         </Button>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="text-xs">
           Push to GM screen
         </Button>
       </div>
 
-      <Card className="">
+      <Card className="border-slate-800 bg-slate-900/50">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Radio className="size-4 text-slate-400" />
+            <Radio className="size-4 text-orange-400" />
             <h2 className="text-base font-bold text-slate-100">
               Live output
             </h2>
@@ -90,10 +90,10 @@ function WorkspaceRightRail() {
         </CardContent>
       </Card>
 
-      <Card className="">
+      <Card className="border-slate-800 bg-slate-900/50">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <ScreenShare className="size-4 text-slate-400" />
+            <ScreenShare className="size-4 text-orange-400" />
             <h2 className="text-base font-bold text-slate-100">
               Director notes
             </h2>
@@ -115,7 +115,7 @@ export function WorkspaceTimeline() {
     <section className="flex min-w-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold text-slate-500">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">
             Campaign Workspace / Scene Timeline
           </p>
           <h1 className="mt-7 text-3xl font-bold tracking-normal text-slate-100">
@@ -126,7 +126,7 @@ export function WorkspaceTimeline() {
             the table needs next.
           </p>
         </div>
-        <Button className="shrink-0">
+        <Button className="shrink-0 bg-orange-500 text-slate-950 hover:bg-orange-400">
           <Plus className="size-4" />
           Add scene
         </Button>
@@ -134,7 +134,7 @@ export function WorkspaceTimeline() {
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px]">
         <div className="space-y-4">
-          <Card className="flex min-h-10 items-center justify-between  px-4 py-3">
+          <Card className="flex min-h-10 items-center justify-between border-slate-800 bg-slate-900/50 px-4 py-3">
             <h2 className="text-base font-bold text-slate-100">
               Next session run order
             </h2>
