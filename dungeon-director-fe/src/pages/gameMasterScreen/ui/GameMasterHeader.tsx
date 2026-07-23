@@ -18,7 +18,7 @@ export function GameMasterHeader() {
         <Button variant="outline" size="sm">
           Open Player Screen
         </Button>
-        <Button size="sm" className="bg-orange-500 text-white hover:bg-orange-600">
+        <Button size="sm" className="bg-orange-500 text-slate-950 hover:bg-orange-600">
           Save Session
         </Button>
         <Button variant="outline" size="sm">

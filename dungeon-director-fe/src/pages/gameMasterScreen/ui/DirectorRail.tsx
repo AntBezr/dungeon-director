@@ -39,7 +39,7 @@ function CurrentScenePanel() {
         </p>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <Button className="bg-orange-500 text-white hover:bg-orange-600">
+        <Button className="bg-orange-500 text-slate-950 hover:bg-orange-600">
           Cut to map
         </Button>
         <Button variant="outline">Hold</Button>
