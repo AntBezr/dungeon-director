@@ -1,30 +1,30 @@
-import { cn } from "utils";
+import { cn } from 'utils'
 
-import { Button } from "ui/8bit/button";
+import { Button } from 'ui/8bit/button'
 
-import "ui/8bit/styles/retro.css";
+import 'ui/8bit/styles/retro.css'
 
 interface NotFound1Props {
-  className?: string;
-  cta?: string;
-  description?: string;
-  href?: string;
-  imageSrc?: string;
-  title?: string;
+  className?: string
+  cta?: string
+  description?: string
+  href?: string
+  imageSrc?: string
+  title?: string
 }
 
 export default function NotFound1({
-  title = "You made the Ogre angry!",
+  title = 'You made the Ogre angry!',
   description = "This room doesn't exist. Turn back before it's too late.",
-  cta = "Return to Home Page",
-  href = "/",
-  imageSrc = "/images/8bit-ogre.png",
+  cta = 'Return to Home Page',
+  href = '/',
+  imageSrc = '/images/8bit-ogre.webp',
   className,
 }: NotFound1Props) {
   return (
     <div
       className={cn(
-        "retro grid w-full place-content-center gap-5 bg-background px-4 py-16 text-center md:py-24",
+        'retro grid w-full place-content-center gap-5 bg-background px-4 py-16 text-center md:py-24',
         className,
       )}
     >
@@ -56,5 +56,5 @@ export default function NotFound1({
         </a>
       </div>
     </div>
-  );
+  )
 }

@@ -1,13 +1,4 @@
 export { Badge, badgeVariants } from './badge'
-export {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from './breadcrumb'
 export { Button, buttonVariants } from './button'
 export {
   Card,
