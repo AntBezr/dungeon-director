@@ -1,8 +1,8 @@
-import { Archive, FolderOpen, Plus } from 'lucide-react';
-
-import { Badge, Button, Card } from '@shared/ui';
-import { campaigns } from '../mock/CompaignCards';
-import { CampaignCard } from './CompaignCard';
+import type { CampaignType } from '@entities/campaign'
+import { Archive, FolderOpen, Plus } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Button, Card } from 'ui/8bit'
+import { CampaignCard } from './CampaignCard'
 
 const filters = ['All campaigns', 'Drafts', 'Recent']
 
@@ -30,7 +30,17 @@ function ArchivedCampaignsEmptyState() {
   )
 }
 
-export function CampaignDashboard() {
+interface CampaignDashboardProps {
+  campaigns: CampaignType[]
+  isLoading: boolean
+  isError: boolean
+}
+
+export function CampaignDashboard({
+  campaigns,
+  isLoading,
+  isError,
+}: CampaignDashboardProps) {
   return (
     <section className="px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
@@ -70,11 +80,9 @@ export function CampaignDashboard() {
               {filter}
             </Button>
           ))}
-        </div>
-
-        <div className="flex flex-wrap gap-3 lg:justify-end">
-          <Badge variant="default">Updated 2h ago</Badge>
-          <Badge variant="default">6 active tables</Badge>
+          <Button variant="outline" size="sm" className="rounded-sm" asChild>
+            <Link to="/glossary">Glossary</Link>
+          </Button>
         </div>
       </div>
 
@@ -82,15 +90,28 @@ export function CampaignDashboard() {
         <h2 className="text-base font-semibold text-slate-100">
           Current campaigns
         </h2>
-        <p className="text-xs font-medium text-slate-500">
-          3 pinned · 9 total
-        </p>
+        <p className="text-xs font-medium text-slate-500">3 pinned · 9 total</p>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
-        {campaigns.map((campaign) => (
-          <CampaignCard key={campaign.title} campaign={campaign} />
-        ))}
+        {isLoading &&
+          Array.from({ length: 3 }, (_, index) => (
+            <Card
+              key={index}
+              aria-label="Loading campaigns"
+              className="min-h-43.5 animate-pulse bg-slate-900/50"
+            />
+          ))}
+        {isError && (
+          <Card className="min-h-43.5 p-5 text-sm text-rose-300">
+            Could not load campaigns. Please try again.
+          </Card>
+        )}
+        {!isLoading &&
+          !isError &&
+          campaigns.map((campaign) => (
+            <CampaignCard key={campaign.gameUuid} campaign={campaign} />
+          ))}
       </div>
 
       <ArchivedCampaignsEmptyState />

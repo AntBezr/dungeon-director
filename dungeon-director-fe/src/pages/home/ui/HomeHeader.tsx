@@ -1,6 +1,6 @@
-import { RefreshCw, Search } from 'lucide-react';
+import { RefreshCw, Search } from 'lucide-react'
 
-import { Button, Input } from '@shared/ui';
+import { Button, Input } from 'ui/8bit'
 
 export function HomeHeader() {
   return (

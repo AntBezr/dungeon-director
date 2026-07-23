@@ -1,11 +1,12 @@
 import type { CampaignType } from '@entities/campaign'
-import { Badge, Card, CardFooter, CardHeader } from 'ui/8bit'
+import { ROUTES } from '@shared/models/routes'
 import { Link } from 'react-router-dom'
+import { Badge, Card, CardFooter, CardHeader } from 'ui/8bit'
 
 export function CampaignCard({ campaign }: { campaign: CampaignType }) {
   if (!campaign) {
     return (
-      <Card className="flex min-h-43.5 flex-col justify-between transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-900/50 hover:shadow-[8px_8px_0_#020617] focus-within:border-cyan-400">
+      <Card className="flex min-h-43.5 flex-col justify-between transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-900/50 hover:shadow-[8px_8px_0_var(--app-shadow)] focus-within:border-cyan-400">
         <CardHeader>
           <div>
             <h3 className="text-lg font-bold tracking-normal text-slate-100">
@@ -19,11 +20,14 @@ export function CampaignCard({ campaign }: { campaign: CampaignType }) {
 
   return (
     <Link
-      to={`/campaign-workspace/${campaign.gameUuid}`}
+      to={ROUTES.CAMPAIGNWORKSPACE.BASE.replace(
+        ':campaignId',
+        campaign.gameUuid,
+      )}
       aria-label={`Open ${campaign.title} campaign workspace`}
       className="block text-inherit no-underline"
     >
-      <Card className="flex min-h-43.5 flex-col justify-between transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-900/50 hover:shadow-[8px_8px_0_#020617] focus-within:border-cyan-400">
+      <Card className="flex min-h-43.5 flex-col justify-between transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-900/50 hover:shadow-[8px_8px_0_var(--app-shadow)] focus-within:border-cyan-400">
         <CardHeader>
           <Badge
             variant={campaign.statusTone}
