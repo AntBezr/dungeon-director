@@ -81,8 +81,8 @@ export const router = createBrowserRouter([
           {
             path: 'creatures/npcs',
             lazy: async () => {
-              const { NPCsPage } = await import('@pages/glossary/ui/NPCsPage')
-              return { Component: NPCsPage }
+              const { NpcsPage } = await import('@pages/glossary/ui/NpcsPage')
+              return { Component: NpcsPage }
             },
           },
           {
@@ -96,7 +96,8 @@ export const router = createBrowserRouter([
           {
             path: 'equipment/weapons',
             lazy: async () => {
-              const { WeaponsPage } = await import('@pages/glossary/ui/WeaponsPage')
+              const { WeaponsPage } =
+                await import('@pages/glossary/ui/WeaponsPage')
               return { Component: WeaponsPage }
             },
           },

@@ -37,3 +37,14 @@ See `src/README.md` for the project rules and examples.
 ## Styling
 
 Components are styled with Tailwind utility classes. The only CSS file is `src/app/styles/index.css`, which imports Tailwind.
+
+## Server state and mocks
+
+TanStack Query is configured once in `src/main.tsx` with the shared client from
+`src/shared/api/query-client.ts`. Put a request function and its `useQuery` /
+`useMutation` hooks in the relevant entity's `api/` directory.
+
+In development, MSW starts before React renders. Add mock endpoint handlers to
+the entity (for example, `src/entities/campaign/api/mockHandlers.ts`) and
+register them in `src/app/mocks/handlers.ts`. Hooks keep using `fetch`, so no
+component changes are needed when the real backend is connected.
