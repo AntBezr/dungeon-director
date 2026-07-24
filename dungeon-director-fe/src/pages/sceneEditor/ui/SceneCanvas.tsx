@@ -20,7 +20,7 @@ export function SceneCanvas() {
       </div>
 
       <div className="mt-4 bg-[#f7f6f2] p-4">
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#d8d0bf]">
+        <div className="relative aspect-4/3 w-full overflow-hidden bg-[#d8d0bf]">
           <div className="absolute top-[13%] left-[10%] h-[22%] w-[26%] rounded-sm bg-[#9cac8e]" />
           <div className="absolute right-[10%] bottom-[17%] h-[22%] w-[25%] rounded-sm bg-[#94a87c]" />
           <div className="absolute top-[38%] left-[5%] h-[18%] w-[92%] origin-left rotate-[-25deg] bg-[#bd9e68]" />

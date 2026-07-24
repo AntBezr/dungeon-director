@@ -29,15 +29,15 @@ export function BattleMapPanel() {
             Selected Actor
           </div>
           <div className="absolute top-11.25 left-22 z-10 h-23.5 w-34.5 rounded-sm bg-[#9bb084]" />
-          <div className="absolute right-17 bottom-14.5 z-10 h-[84px] w-[126px] rounded-sm bg-[#93a97b]" />
-          <div className="absolute top-[112px] left-[34px] h-[78px] w-[520px] origin-left rotate-[-20deg] bg-[#bd9e68]" />
-          <div className="absolute top-[168px] left-[302px] h-6 w-24 bg-[#685039]" />
-          <span className="absolute top-[156px] left-[315px] size-5 rounded-sm bg-[#ded0b7]" />
-          <span className="absolute top-[220px] left-[260px] size-5 rounded-sm bg-[#ded0b7]" />
-          <span className="absolute top-[248px] left-[242px] size-5 rounded-sm bg-black" />
-          <span className="absolute top-[236px] left-[210px] size-8 rounded-sm border-4 border-orange-500" />
-          <span className="absolute top-[104px] right-[116px] size-5 rounded-sm bg-[#8d614d]" />
-          <span className="absolute top-[126px] right-[92px] size-5 rounded-sm bg-[#6f6253]" />
+          <div className="absolute right-17 bottom-14.5 z-10 h-21 w-31.5 rounded-sm bg-[#93a97b]" />
+          <div className="absolute top-28 left-8.5 h-19.5 w-130 origin-left rotate-[-20deg] bg-[#bd9e68]" />
+          <div className="absolute top-42 left-75.5 h-6 w-24 bg-[#685039]" />
+          <span className="absolute top-39 left-78.75 size-5 rounded-sm bg-[#ded0b7]" />
+          <span className="absolute top-55 left-65 size-5 rounded-sm bg-[#ded0b7]" />
+          <span className="absolute top-62 left-60.5 size-5 rounded-sm bg-black" />
+          <span className="absolute top-59 left-52.5 size-8 rounded-sm border-4 border-orange-500" />
+          <span className="absolute top-26 right-29 size-5 rounded-sm bg-[#8d614d]" />
+          <span className="absolute top-31.5 right-23 size-5 rounded-sm bg-[#6f6253]" />
         </div>
       </div>
     </section>
