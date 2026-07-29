@@ -1,8 +1,16 @@
-import { RefreshCw, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 
-import { Button, Input } from 'ui/8bit'
+import { Input } from 'ui/8bit'
 
-export function HomeHeader() {
+interface HomeHeaderProps {
+  searchInput: string
+  searchInputChange: (value: string) => void
+}
+
+export function HomeHeader({
+  searchInputChange,
+  searchInput,
+}: HomeHeaderProps) {
   return (
     <header className="flex h-10 items-center justify-between border-b border-slate-800 px-4 sm:px-6">
       <div className="flex items-center gap-2">
@@ -19,22 +27,13 @@ export function HomeHeader() {
             aria-label="Search"
             className="h-8  pl-9 text-xs"
             placeholder="Jump to campaign, NPC, session note..."
+            value={searchInput}
+            onChange={(event) => searchInputChange(event.target.value)}
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" className="hidden sm:inline-flex">
-          <RefreshCw className="size-3.5" />
-          Sync all
-        </Button>
-        <Button variant="outline" size="sm" className="gap-2">
-          <span className="flex size-5 items-center justify-center rounded-sm bg-slate-100 text-[10px] font-bold text-slate-900">
-            AD
-          </span>
-          <span className="hidden sm:inline">Anton</span>
-        </Button>
-      </div>
+      <div className="flex items-center gap-2"></div>
     </header>
   )
 }

@@ -70,6 +70,12 @@
   --sidebar-accent-foreground: #0f172a;
   --sidebar-border: #cbd5e1;
   --sidebar-ring: #f97316;
+  --primary: #f1f5f9;
+  --destructive: #f87171;
+  --background: #090c12;
+  --secondary: #1e293b;
+  --warning: #fbbf24;
+  --success: #34d399;
 }
 .dark {
   color-scheme: dark;
@@ -108,6 +114,12 @@
   --sidebar-accent-foreground: #f1f5f9;
   --sidebar-border: rgb(255 255 255 / 10%);
   --sidebar-ring: #64748b;
+  --primary: #f1f5f9;
+  --destructive: #f87171;
+  --background: #090c12;
+  --secondary: #1e293b;
+  --warning: #fbbf24;
+  --success: #34d399;
 }
 
 html,

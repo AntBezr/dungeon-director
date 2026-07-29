@@ -1,76 +1,77 @@
-import { type VariantProps, cva } from "class-variance-authority";
+import { type VariantProps, cva } from 'class-variance-authority'
 
-import { cn } from "utils";
+import { cn } from 'utils'
 
-import { Badge as ShadcnBadge } from "ui/badge";
+import { Badge as ShadcnBadge } from 'ui/badge'
 
-export const badgeVariants = cva("", {
+export const badgeVariants = cva('', {
   variants: {
     font: {
-      normal: "",
-      retro: "retro",
+      normal: '',
+      retro: 'retro',
     },
     variant: {
-      default: "border-primary bg-primary",
-      destructive: "border-destructive bg-destructive",
-      outline: "border-background bg-background",
-      secondary: "border-secondary bg-secondary",
-      success: "border-emerald-500 bg-emerald-500",
-      warning: "border-orange-500 bg-orange-500",
+      default: 'border-red bg-white',
+      destructive: 'border-destructive bg-destructive',
+      outline: 'border-background bg-background',
+      secondary: 'border-secondary bg-secondary',
+      success: 'border-emerald-500 bg-emerald-500',
+      warning: 'border-orange-500 bg-orange-500',
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
-});
+})
 
 export interface BitButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof badgeVariants> {
-  asChild?: boolean;
+  asChild?: boolean
 }
 
 function Badge({
   children,
-  className = "",
+  className = '',
   font,
   variant,
   ...props
 }: BitButtonProps) {
-  const color = badgeVariants({ variant, font });
+  const color = badgeVariants({ variant, font })
 
-  const classes = className.split(" ");
+  const classes = className.split(' ')
 
   // visual classes for badge and sidebars
   const visualClasses = classes.filter(
     (c) =>
-      c.startsWith("bg-") ||
-      c.startsWith("border-") ||
-      c.startsWith("text-") ||
-      c.startsWith("rounded-")
-  );
+      c.startsWith('bg-') ||
+      c.startsWith('border-') ||
+      c.startsWith('text-') ||
+      c.startsWith('rounded-'),
+  )
 
   // Container should accept all non-visual utility classes (e.g., size, spacing, layout)
   const containerClasses = classes.filter(
     (c) =>
       !(
-        c.startsWith("bg-") ||
-        c.startsWith("border-") ||
-        c.startsWith("text-") ||
-        c.startsWith("rounded-")
-      )
-  );
+        c.startsWith('bg-') ||
+        c.startsWith('border-') ||
+        c.startsWith('text-') ||
+        c.startsWith('rounded-')
+      ),
+  )
 
   return (
-    <div className={cn("relative inline-flex items-stretch", containerClasses)}>
+    <div className={cn('relative inline-flex items-stretch', containerClasses)}>
       <ShadcnBadge
         {...props}
         className={cn(
-          "h-full",
-          "rounded-none",
-          "w-full",
-          font !== "normal" && "retro",
-          visualClasses
+          'h-full',
+          'rounded-none',
+          'w-full',
+          font !== 'normal' && 'retro',
+          visualClasses,
         )}
         variant={variant}
       >
@@ -80,21 +81,21 @@ function Badge({
       {/* Left pixel bar */}
       <div
         className={cn(
-          "-left-1.5 absolute inset-y-[4px] w-1.5",
+          '-left-1.5 absolute inset-y-[4px] w-1.5',
           color,
-          visualClasses
+          visualClasses,
         )}
       />
       {/* Right pixel bar */}
       <div
         className={cn(
-          "-right-1.5 absolute inset-y-[4px] w-1.5",
+          '-right-1.5 absolute inset-y-[4px] w-1.5',
           color,
-          visualClasses
+          visualClasses,
         )}
       />
     </div>
-  );
+  )
 }
 
-export { Badge };
+export { Badge }

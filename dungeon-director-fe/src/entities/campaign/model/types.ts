@@ -1,12 +1,11 @@
 export interface CampaignType {
   gameUuid: string
-  status: 'LIVE TABLE' | 'PREP MODE' | 'ON HOLD' | 'ARCHIVED'
-  statusTone: 'default' | 'secondary' | 'success' | 'warning'
+  status: 'ACTIVE' | 'PREP MODE' | 'ON HOLD' | 'ARCHIVED'
   title: string
-  details: string
-  description: string
-  footerLeft: string
-  footerRight: string
-  footerTone: string
-  last_change: string
+  details: {
+    numScenes: number
+    numSessions: number
+  }
+  last_change_date: string
+  participants: string[]
 }
