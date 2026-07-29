@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Badge, Button } from 'ui'
 
 const sceneQueue = [
@@ -13,7 +15,15 @@ const quickAssets = [
   ['4', 'battle_cam_02', 'Standby', 'text-slate-500'],
 ] as const
 
-function CurrentScenePanel() {
+function CurrentScenePanel({
+  currentScene,
+  isHeld,
+  onHoldChange,
+}: {
+  currentScene: string
+  isHeld: boolean
+  onHoldChange: (isHeld: boolean) => void
+}) {
   return (
     <section className="border-b border-slate-800 p-4">
       <div className="border-l-4 border-orange-500 pl-3">
@@ -23,7 +33,7 @@ function CurrentScenePanel() {
               Current Scene
             </p>
             <h2 className="mt-1 text-lg font-bold text-slate-100">
-              Gatehouse Breach
+              {currentScene}
             </h2>
           </div>
           <Badge
@@ -34,21 +44,33 @@ function CurrentScenePanel() {
           </Badge>
         </div>
         <p className="mt-3 text-sm leading-5 text-slate-300">
-          3 hostile actors active. Fog layer locked. Party split detected on
-          east corridor.
+          {isHeld ? 'Scene is held for table discussion.' : '3 hostile actors active. Fog layer locked. Party split detected on'}
+          {!isHeld && ' east corridor.'}
         </p>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <Button className="bg-orange-500 text-slate-950 hover:bg-orange-600">
+        <Button
+          type="button"
+          onClick={() => onHoldChange(false)}
+          className="bg-orange-500 text-slate-950 hover:bg-orange-600"
+        >
           Cut to map
         </Button>
-        <Button variant="outline">Hold</Button>
+        <Button type="button" variant="outline" onClick={() => onHoldChange(true)}>
+          {isHeld ? 'Held' : 'Hold'}
+        </Button>
       </div>
     </section>
   )
 }
 
-function SceneQueuePanel() {
+function SceneQueuePanel({
+  currentScene,
+  onSceneSelect,
+}: {
+  currentScene: string
+  onSceneSelect: (scene: string) => void
+}) {
   return (
     <section className="border-b border-slate-800 p-4">
       <div className="flex items-center justify-between">
@@ -59,13 +81,19 @@ function SceneQueuePanel() {
       </div>
       <div className="mt-4 space-y-4">
         {sceneQueue.map(([scene, state, tone]) => (
-          <div
+          <button
             key={scene}
-            className="flex items-center justify-between gap-4 text-xs font-bold uppercase"
+            type="button"
+            onClick={() => onSceneSelect(scene)}
+            className={`flex w-full items-center justify-between gap-4 border-l-2 px-2 py-1 text-left text-xs font-bold uppercase transition-colors ${
+              currentScene === scene
+                ? 'border-orange-500 bg-slate-900 text-slate-100'
+                : 'border-transparent text-slate-300 hover:bg-slate-900'
+            }`}
           >
-            <span className="text-slate-300">{scene}</span>
+            <span>{scene}</span>
             <span className={tone}>{state}</span>
-          </div>
+          </button>
         ))}
       </div>
     </section>
@@ -73,6 +101,9 @@ function SceneQueuePanel() {
 }
 
 function MusicPanel() {
+  const [isDucked, setIsDucked] = useState(false)
+  const [stingTriggered, setStingTriggered] = useState(false)
+
   return (
     <section className="border-b border-slate-800 p-4">
       <div className="flex items-center justify-between">
@@ -87,7 +118,7 @@ function MusicPanel() {
         Lower Crypt Tension Bed
       </h3>
       <p className="mt-2 text-xs font-semibold text-slate-500">
-        looping · cue point B · 68%
+        {isDucked ? 'ducked · cue point B · 32%' : 'looping · cue point B · 68%'}
       </p>
       <div className="mt-3 flex h-2 gap-1">
         <span className="flex-1 bg-slate-100" />
@@ -96,8 +127,12 @@ function MusicPanel() {
         <span className="flex-1 bg-orange-500" />
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2">
-        <Button variant="outline">Duck</Button>
-        <Button>Trigger Sting</Button>
+        <Button type="button" variant="outline" onClick={() => setIsDucked((ducked) => !ducked)}>
+          {isDucked ? 'Restore' : 'Duck'}
+        </Button>
+        <Button type="button" onClick={() => setStingTriggered(true)}>
+          {stingTriggered ? 'Sting live' : 'Trigger Sting'}
+        </Button>
       </div>
     </section>
   )
@@ -154,10 +189,23 @@ function SessionNotesPanel() {
 }
 
 export function DirectorRail() {
+  const [currentScene, setCurrentScene] = useState('01 Chapel Interior')
+  const [isHeld, setIsHeld] = useState(false)
+
   return (
-    <aside className="bg-[#0b0f15]">
-      <CurrentScenePanel />
-      <SceneQueuePanel />
+    <aside className="bg-slate-950">
+      <CurrentScenePanel
+        currentScene={currentScene}
+        isHeld={isHeld}
+        onHoldChange={setIsHeld}
+      />
+      <SceneQueuePanel
+        currentScene={currentScene}
+        onSceneSelect={(scene) => {
+          setCurrentScene(scene)
+          setIsHeld(false)
+        }}
+      />
       <MusicPanel />
       <QuickAssetsPanel />
       <SessionNotesPanel />

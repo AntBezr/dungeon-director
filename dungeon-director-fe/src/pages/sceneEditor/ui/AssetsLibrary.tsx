@@ -19,7 +19,7 @@ const npcAssets = [
 
 export function AssetsLibrary() {
   return (
-    <aside className="border-b border-slate-800 bg-[#0b0f15] p-4 lg:border-r lg:border-b-0">
+    <aside className="border-b border-slate-800 bg-slate-950 p-4 lg:border-r lg:border-b-0">
       <h2 className="text-lg font-bold text-slate-100">Assets Library</h2>
 
       <div className="relative mt-4">
@@ -49,7 +49,7 @@ export function AssetsLibrary() {
         </h3>
         <div className="space-y-2">
           {npcAssets.map((asset) => (
-            <Card key={asset.name} className=" bg-[#11151c]">
+            <Card key={asset.name} className="bg-slate-900/60">
               <CardContent className="flex items-center justify-between gap-3 p-3">
                 <div className="flex min-w-0 items-center gap-3">
                   <span

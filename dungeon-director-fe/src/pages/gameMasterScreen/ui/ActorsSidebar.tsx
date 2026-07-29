@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react'
+import { useState } from 'react'
 
 import { Badge, Card, CardContent, Input } from 'ui'
 
@@ -8,13 +9,15 @@ const actors = [
     items: [
       {
         name: 'Merchant',
-        status: 'Visible · 12/12 HP',
+        hp: '12/12 HP',
+        isVisible: true,
         color: 'bg-[#d9c49e]',
         actions: ['Hide', 'Focus', 'Edit HP'],
       },
       {
         name: 'Guard',
-        status: 'Hidden · 14/14 HP',
+        hp: '14/14 HP',
+        isVisible: false,
         color: 'bg-[#c6c0af]',
         actions: ['Show', 'Focus', 'Edit HP'],
       },
@@ -25,13 +28,15 @@ const actors = [
     items: [
       {
         name: 'Goblin #1',
-        status: 'Hidden · 8/8 HP',
+        hp: '8/8 HP',
+        isVisible: false,
         color: 'bg-[#9d7057]',
         actions: ['Show', 'Focus', '-1', '+1', 'Edit'],
       },
       {
         name: 'Goblin Boss',
-        status: 'Visible · 20/20 HP',
+        hp: '20/20 HP',
+        isVisible: true,
         color: 'bg-[#7d6a54]',
         actions: ['Hide', 'Focus', '-5', '+5', 'Edit'],
       },
@@ -39,9 +44,17 @@ const actors = [
   },
 ]
 
-function ActorCard({ actor }: { actor: (typeof actors)[number]['items'][number] }) {
+function ActorCard({
+  actor,
+  isVisible,
+  onVisibilityChange,
+}: {
+  actor: (typeof actors)[number]['items'][number]
+  isVisible: boolean
+  onVisibilityChange: () => void
+}) {
   return (
-    <Card className=" bg-[#11151c]">
+    <Card className="bg-slate-900/60">
       <CardContent className="p-3">
         <div className="flex items-center gap-3">
           <span className={`size-7 shrink-0 rounded-sm ${actor.color}`} />
@@ -51,19 +64,20 @@ function ActorCard({ actor }: { actor: (typeof actors)[number]['items'][number] 
                 {actor.name}
               </p>
               <p className="shrink-0 text-xs font-semibold text-slate-500">
-                {actor.status}
+                {isVisible ? 'Visible' : 'Hidden'} · {actor.hp}
               </p>
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
-              {actor.actions.map((action) => (
-                <button
-                  key={action}
-                  type="button"
-                  className="text-xs font-semibold text-slate-300 hover:text-slate-100"
-                >
-                  {action}
-                </button>
-              ))}
+              <button
+                type="button"
+                onClick={onVisibilityChange}
+                className="text-xs font-semibold text-orange-400 hover:text-orange-500"
+              >
+                {isVisible ? 'Hide' : 'Show'}
+              </button>
+              <button type="button" className="text-xs font-semibold text-slate-300 hover:text-slate-100">
+                Focus
+              </button>
             </div>
           </div>
         </div>
@@ -73,8 +87,16 @@ function ActorCard({ actor }: { actor: (typeof actors)[number]['items'][number] 
 }
 
 export function ActorsSidebar() {
+  const [visibility, setVisibility] = useState(() =>
+    Object.fromEntries(
+      actors.flatMap((group) =>
+        group.items.map((actor) => [actor.name, actor.isVisible]),
+      ),
+    ),
+  )
+
   return (
-    <aside className="border-b border-slate-800 bg-[#0c1016] lg:border-r lg:border-b-0">
+    <aside className="border-b border-slate-800 bg-slate-950 lg:border-r lg:border-b-0">
       <div className="border-b border-slate-800 p-3">
         <h2 className="text-lg font-bold text-slate-100">Actors</h2>
         <p className="mt-1 text-xs font-medium text-slate-500">
@@ -98,7 +120,17 @@ export function ActorsSidebar() {
             </h3>
             <div className="space-y-2">
               {group.items.map((actor) => (
-                <ActorCard key={actor.name} actor={actor} />
+                <ActorCard
+                  key={actor.name}
+                  actor={actor}
+                  isVisible={visibility[actor.name]}
+                  onVisibilityChange={() =>
+                    setVisibility((currentVisibility) => ({
+                      ...currentVisibility,
+                      [actor.name]: !currentVisibility[actor.name],
+                    }))
+                  }
+                />
               ))}
             </div>
           </section>

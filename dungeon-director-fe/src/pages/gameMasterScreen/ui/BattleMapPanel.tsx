@@ -1,11 +1,15 @@
+import { useState } from 'react'
+
 export function BattleMapPanel() {
+  const [isGridVisible, setIsGridVisible] = useState(true)
+
   return (
     <section className="min-w-0 border-b border-slate-800 p-4 lg:border-r lg:border-b-0">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-bold text-slate-100">Battle Map</h2>
           <p className="text-xs font-semibold text-slate-500">
-            Combat view · Grid on
+            Combat view · Grid {isGridVisible ? 'on' : 'off'}
           </p>
         </div>
         <div className="flex flex-wrap gap-3 text-xs font-semibold text-slate-400">
@@ -16,7 +20,11 @@ export function BattleMapPanel() {
           <button type="button" className="hover:text-slate-100">
             Select Actor
           </button>
-          <button type="button" className="hover:text-slate-100">
+          <button
+            type="button"
+            onClick={() => setIsGridVisible((isVisible) => !isVisible)}
+            className="hover:text-slate-100"
+          >
             Grid Toggle
           </button>
         </div>
@@ -24,6 +32,7 @@ export function BattleMapPanel() {
 
       <div className="mt-8 flex justify-center">
         <div className="relative aspect-4/3 w-full max-w-152.5 overflow-hidden bg-[#eee9df] shadow-[inset_6px_6px_0_rgba(15,23,42,0.22)]">
+          {isGridVisible && <div className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(rgba(15,23,42,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.15)_1px,transparent_1px)] bg-size-[24px_24px]" />}
           <div className="absolute inset-5 bg-[#d8d0bf]" />
           <div className="absolute top-5 left-7 z-10 h-12 w-44 bg-white/70 px-4 py-3 text-[11px] font-semibold text-slate-400">
             Selected Actor

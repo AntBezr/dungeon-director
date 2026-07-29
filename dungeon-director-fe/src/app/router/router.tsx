@@ -41,9 +41,22 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.CAMPAIGNWORKSPACE.SCENEEDITOR,
         lazy: async () => {
-          const { CampaignWorkspacePage } =
-            await import('@pages/campaignWorkspace')
-          return { Component: CampaignWorkspacePage }
+          const { SceneEditorPage } = await import('@pages/sceneEditor')
+          return { Component: SceneEditorPage }
+        },
+      },
+      {
+        path: ROUTES.ACTIVEGAME.MASTERSCREEN,
+        lazy: async () => {
+          const { GameMasterScreenPage } = await import('@pages/gameMasterScreen')
+          return { Component: GameMasterScreenPage }
+        },
+      },
+      {
+        path: ROUTES.ACTIVEGAME.PLAYERSSCREEN,
+        lazy: async () => {
+          const { PlayerScreenPage } = await import('@pages/playerScreen')
+          return { Component: PlayerScreenPage }
         },
       },
       {

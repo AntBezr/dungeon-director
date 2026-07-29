@@ -1,4 +1,4 @@
-import { BookOpen, ChevronDown, Home, LayoutPanelTop, Moon, Radio, ScrollText, Skull, Sun, Sword, UsersRound } from 'lucide-react'
+import { BookOpen, ChevronDown, Clapperboard, Home, LayoutPanelTop, Moon, Radio, ScrollText, Skull, Sun, Sword, UsersRound } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, useParams } from 'react-router-dom'
@@ -35,17 +35,24 @@ function NavigationLink({ label, to, icon: Icon, end }: NavigationItem) {
 }
 
 export function AppSidebar() {
-  const { campaignId } = useParams()
+  const { campaignId, gameId } = useParams()
   const { theme, setTheme } = useTheme()
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(true)
-  const workspacePath = campaignId
-    ? ROUTES.CAMPAIGNWORKSPACE.BASE.replace(':campaignId', campaignId)
+  const activeCampaignId = campaignId ?? gameId
+  const workspacePath = activeCampaignId
+    ? ROUTES.CAMPAIGNWORKSPACE.BASE.replace(':campaignId', activeCampaignId)
+    : undefined
+  const masterScreenPath = gameId
+    ? ROUTES.ACTIVEGAME.MASTERSCREEN.replace(':gameId', gameId)
     : undefined
 
   const navigation: NavigationItem[] = [
     { label: 'Campaigns', to: ROUTES.HOME, icon: Home, end: true },
     ...(workspacePath
       ? [{ label: 'Workspace', to: workspacePath, icon: LayoutPanelTop, end: true }]
+      : []),
+    ...(masterScreenPath
+      ? [{ label: 'Live session', to: masterScreenPath, icon: Clapperboard, end: true }]
       : []),
   ]
 

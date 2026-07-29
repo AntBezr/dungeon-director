@@ -1,8 +1,17 @@
-import { Maximize2, Settings } from 'lucide-react'
+import { ArrowLeft, Maximize2, Settings } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 import { Button } from 'ui'
 
-export function GameMasterHeader() {
+interface GameMasterHeaderProps {
+  workspacePath: string
+  playerScreenPath: string
+}
+
+export function GameMasterHeader({
+  workspacePath,
+  playerScreenPath,
+}: GameMasterHeaderProps) {
   return (
     <header className="flex flex-col gap-4 border-b border-slate-800 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
       <div>
@@ -15,8 +24,16 @@ export function GameMasterHeader() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm">
-          Open Player Screen
+        <Button asChild variant="outline" size="sm">
+          <Link to={workspacePath}>
+            <ArrowLeft className="size-3.5" aria-hidden="true" />
+            Timeline
+          </Link>
+        </Button>
+        <Button asChild variant="outline" size="sm">
+          <Link to={playerScreenPath} target="_blank" rel="noreferrer">
+            Open Player Screen
+          </Link>
         </Button>
         <Button size="sm" className="bg-orange-500 text-slate-950 hover:bg-orange-600">
           Save Session

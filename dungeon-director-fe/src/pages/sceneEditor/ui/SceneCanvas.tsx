@@ -1,9 +1,9 @@
-export function SceneCanvas() {
+export function SceneCanvas({ sceneName }: { sceneName: string }) {
   return (
     <section className="min-w-0 border-b border-slate-800 p-5 lg:border-r lg:border-b-0">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-bold text-slate-100">
-          Forest Road Encounter
+          {sceneName || 'Untitled scene'}
         </h2>
         <div className="flex gap-3 text-xs font-semibold text-slate-500">
           <span>100%</span>

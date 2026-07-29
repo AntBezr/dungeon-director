@@ -1,8 +1,19 @@
-import { Plus, Radio, ScreenShare } from 'lucide-react'
+import { ChevronDown, ChevronUp, CirclePlus, Clapperboard, Plus, Radio, ScreenShare } from 'lucide-react'
+import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 
+import { ROUTES } from '@shared/models/routes'
 import { Badge, Button, Card, CardContent, CardHeader } from 'ui/8bit'
 
-const scenes = [
+interface Scene {
+  number: string
+  title: string
+  duration: string
+  body: string
+  output: string
+}
+
+const initialScenes: Scene[] = [
   {
     number: 'SCENE 01',
     title: 'Cold open in the brass observatory',
@@ -26,7 +37,25 @@ const scenes = [
   },
 ]
 
-function SceneCard({ scene }: { scene: (typeof scenes)[number] }) {
+const preparedScene: Scene = {
+  number: 'SCENE 04',
+  title: 'Witness in the rain market',
+  duration: '10 min',
+  body: 'A prepared social beat that can bridge the current mystery and the next combat encounter when the table needs a softer landing.',
+  output: 'market ambience + witness portrait + one lead card',
+}
+
+function SceneCard({
+  scene,
+  index,
+  total,
+  onMove,
+}: {
+  scene: Scene
+  index: number
+  total: number
+  onMove: (direction: -1 | 1) => void
+}) {
   return (
     <Card className="border-slate-800 bg-slate-900/50 transition-transform hover:-translate-y-0.5 hover:border-slate-600">
       <CardHeader className="p-4">
@@ -50,20 +79,106 @@ function SceneCard({ scene }: { scene: (typeof scenes)[number] }) {
         <p className="mt-4 text-xs font-semibold text-slate-300">
           Output: {scene.output}
         </p>
+        <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-3">
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            Run order {index + 1} of {total}
+          </span>
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="size-6"
+              onClick={() => onMove(-1)}
+              disabled={index === 0}
+              aria-label={`Move ${scene.title} earlier`}
+            >
+              <ChevronUp className="size-3.5" aria-hidden="true" />
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="size-6"
+              onClick={() => onMove(1)}
+              disabled={index === total - 1}
+              aria-label={`Move ${scene.title} later`}
+            >
+              <ChevronDown className="size-3.5" aria-hidden="true" />
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   )
 }
 
-function WorkspaceRightRail() {
+function SceneActions({
+  sceneEditorPath,
+  onAddPreparedScene,
+}: {
+  sceneEditorPath: string
+  onAddPreparedScene: () => void
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div className="relative shrink-0">
+      <Button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        className="bg-orange-500 text-slate-950 hover:bg-orange-400"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+      >
+        <Plus className="size-4" aria-hidden="true" />
+        Add scene
+        <ChevronDown className="size-3.5" aria-hidden="true" />
+      </Button>
+      {isOpen && (
+        <div
+          role="menu"
+          className="absolute right-0 z-20 mt-2 w-60 border-2 border-slate-700 bg-slate-950 p-1 shadow-[5px_5px_0_var(--app-shadow)]"
+        >
+          <Link
+            to={sceneEditorPath}
+            role="menuitem"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 px-3 py-3 text-xs font-bold text-slate-100 transition-colors hover:bg-slate-900"
+          >
+            <CirclePlus className="size-4 text-orange-400" aria-hidden="true" />
+            Create a new scene
+          </Link>
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              onAddPreparedScene()
+              setIsOpen(false)
+            }}
+            className="flex w-full items-center gap-3 px-3 py-3 text-left text-xs font-bold text-slate-300 transition-colors hover:bg-slate-900 hover:text-slate-100"
+          >
+            <Plus className="size-4 text-orange-400" aria-hidden="true" />
+            Add prepared scene
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function WorkspaceRightRail({ masterScreenPath }: { masterScreenPath: string }) {
   return (
     <aside className="space-y-4">
       <div className="flex justify-end gap-2">
         <Button variant="outline" size="sm" className="text-xs">
           Focus mode
         </Button>
-        <Button variant="outline" size="sm" className="text-xs">
-          Push to GM screen
+        <Button asChild variant="outline" size="sm" className="text-xs">
+          <Link to={masterScreenPath}>
+            <Clapperboard className="size-3.5" aria-hidden="true" />
+            Start game
+          </Link>
         </Button>
       </div>
 
@@ -111,6 +226,46 @@ function WorkspaceRightRail() {
 }
 
 export function WorkspaceTimeline() {
+  const { campaignId } = useParams()
+  const [scenes, setScenes] = useState(initialScenes)
+  const safeCampaignId = campaignId ?? 'demo-campaign'
+  const sceneEditorPath = ROUTES.CAMPAIGNWORKSPACE.SCENEEDITOR.replace(
+    ':campaignId',
+    safeCampaignId,
+  )
+  const masterScreenPath = ROUTES.ACTIVEGAME.MASTERSCREEN.replace(
+    ':gameId',
+    safeCampaignId,
+  )
+
+  const moveScene = (index: number, direction: -1 | 1) => {
+    setScenes((currentScenes) => {
+      const nextIndex = index + direction
+
+      if (nextIndex < 0 || nextIndex >= currentScenes.length) {
+        return currentScenes
+      }
+
+      const nextScenes = [...currentScenes]
+      ;[nextScenes[index], nextScenes[nextIndex]] = [
+        nextScenes[nextIndex],
+        nextScenes[index],
+      ]
+
+      return nextScenes
+    })
+  }
+
+  const addPreparedScene = () => {
+    setScenes((currentScenes) => {
+      if (currentScenes.some((scene) => scene.number === preparedScene.number)) {
+        return currentScenes
+      }
+
+      return [...currentScenes, preparedScene]
+    })
+  }
+
   return (
     <section className="flex min-w-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
       <header className="flex items-start justify-between gap-4">
@@ -126,10 +281,10 @@ export function WorkspaceTimeline() {
             the table needs next.
           </p>
         </div>
-        <Button className="shrink-0 bg-orange-500 text-slate-950 hover:bg-orange-400">
-          <Plus className="size-4" />
-          Add scene
-        </Button>
+        <SceneActions
+          sceneEditorPath={sceneEditorPath}
+          onAddPreparedScene={addPreparedScene}
+        />
       </header>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -139,18 +294,24 @@ export function WorkspaceTimeline() {
               Next session run order
             </h2>
             <p className="text-xs font-semibold text-slate-500">
-              6 scenes · 1 break · 2 unresolved hooks
+              {scenes.length} scenes · 1 break · 2 unresolved hooks
             </p>
           </Card>
 
           <div className="space-y-4">
-            {scenes.map((scene) => (
-              <SceneCard key={scene.number} scene={scene} />
+            {scenes.map((scene, index) => (
+              <SceneCard
+                key={scene.number}
+                scene={scene}
+                index={index}
+                total={scenes.length}
+                onMove={(direction) => moveScene(index, direction)}
+              />
             ))}
           </div>
         </div>
 
-        <WorkspaceRightRail />
+        <WorkspaceRightRail masterScreenPath={masterScreenPath} />
       </div>
     </section>
   )
