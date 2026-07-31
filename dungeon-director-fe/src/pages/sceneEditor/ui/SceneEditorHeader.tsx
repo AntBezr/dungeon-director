@@ -3,15 +3,25 @@ import { Link } from 'react-router-dom'
 
 import { Badge, Button } from 'ui'
 
-export function SceneEditorHeader({ workspacePath }: { workspacePath: string }) {
+interface SceneEditorHeaderProps {
+  workspacePath: string
+  editedSceneTitle?: string
+}
+
+export function SceneEditorHeader({
+  workspacePath,
+  editedSceneTitle,
+}: SceneEditorHeaderProps) {
   return (
     <header className="flex flex-col gap-4 border-b border-slate-800 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 className="text-2xl font-bold tracking-normal text-slate-100">
-          Create scene
+          {editedSceneTitle ? 'Edit scene' : 'Create scene'}
         </h1>
         <p className="text-sm font-semibold text-slate-500">
-          Build the scene, place its assets, and save it back to the session timeline.
+          {editedSceneTitle
+            ? `Editing: ${editedSceneTitle}`
+            : 'Build the scene, place its assets, and save it back to the session timeline.'}
         </p>
       </div>
 

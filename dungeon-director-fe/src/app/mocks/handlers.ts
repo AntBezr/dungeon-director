@@ -1,3 +1,3 @@
-import { campaignMockHandlers } from '@entities/campaign';
+import { campaignMockHandlers } from '@entities/campaign'
 
-export const handlers = [...campaignMockHandlers];
+export const handlers = [...campaignMockHandlers]

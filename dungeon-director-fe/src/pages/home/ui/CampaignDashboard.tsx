@@ -1,11 +1,11 @@
-import type { CampaignType } from '@entities/campaign'
+import type { CampaignCardType } from '@entities/campaign/model/types'
 import { Button, Card } from 'ui/8bit'
 import { CampaignCard } from './CampaignCard'
 
 const filters = ['All campaigns', 'Drafts', 'Recent']
 
 interface CampaignDashboardProps {
-  filteredCampaigns: CampaignType[]
+  filteredCampaigns: CampaignCardType[]
   isLoading: boolean
   isError: boolean
   searchInput?: string
@@ -82,7 +82,7 @@ export function CampaignDashboard({
         {!isLoading &&
           !isError &&
           filteredCampaigns.map((campaign) => (
-            <CampaignCard key={campaign.gameUuid} campaign={campaign} />
+            <CampaignCard key={campaign.campaignId} campaign={campaign} />
           ))}
       </div>
     </section>

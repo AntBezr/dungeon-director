@@ -1,10 +1,10 @@
-import type { CampaignType } from '@entities/campaign'
-import { ROUTES } from '@shared/models/routes'
-import dayjs from 'dayjs'
-import { Link } from 'react-router-dom'
-import { Badge, Card, CardFooter, CardHeader } from 'ui/8bit'
+import type { CampaignCardType } from '@entities/campaign/model/types';
+import { ROUTES } from '@shared/models/routes';
+import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
+import { Badge, Card, CardFooter, CardHeader } from 'ui/8bit';
 
-export function CampaignCard({ campaign }: { campaign: CampaignType }) {
+export function CampaignCard({ campaign }: { campaign: CampaignCardType }) {
   if (!campaign) {
     return (
       <Card className="flex min-h-43.5 flex-col justify-between transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:bg-slate-900/50 hover:shadow-[8px_8px_0_var(--app-shadow)] focus-within:border-cyan-400">
@@ -23,7 +23,7 @@ export function CampaignCard({ campaign }: { campaign: CampaignType }) {
     <Link
       to={ROUTES.CAMPAIGNWORKSPACE.BASE.replace(
         ':campaignId',
-        campaign.gameUuid,
+        campaign.campaignId,
       )}
       aria-label={`Open ${campaign.title} campaign workspace`}
       className="block text-inherit no-underline"

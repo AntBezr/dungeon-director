@@ -6,20 +6,26 @@ import { Button } from 'ui'
 interface GameMasterHeaderProps {
   workspacePath: string
   playerScreenPath: string
+  campaignTitle: string
+  activeSceneTitle?: string
 }
 
 export function GameMasterHeader({
   workspacePath,
   playerScreenPath,
+  campaignTitle,
+  activeSceneTitle,
 }: GameMasterHeaderProps) {
   return (
     <header className="flex flex-col gap-4 border-b border-slate-800 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
       <div>
         <h1 className="text-2xl font-bold tracking-normal text-slate-100">
-          Ashfall Campaign
+          {campaignTitle}
         </h1>
         <p className="text-sm font-semibold text-slate-500">
-          Session 08 · Bandit Ambush
+          {activeSceneTitle
+            ? `Active scene · ${activeSceneTitle}`
+            : 'Choose a scene from the timeline to start the game.'}
         </p>
       </div>
 
