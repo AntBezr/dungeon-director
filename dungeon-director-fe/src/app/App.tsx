@@ -11,8 +11,8 @@ export function App() {
   }
 
   return (
-    <div className="min-h-svh bg-(--app-background) font-mono text-slate-100 antialiased">
-      <div className="mx-auto flex min-h-svh w-full max-w-375">
+    <div className="min-h-svh bg-background font-sans text-foreground antialiased">
+      <div className="mx-auto flex min-h-svh w-full">
         <AppSidebar />
         <div className="min-w-0 flex-1">
           <Outlet />

@@ -7,11 +7,8 @@ import {
   type Dnd5eCatalogEntry,
 } from '@entities/dnd5e'
 import type { SceneUnit } from '@entities/campaign/model/types'
-import {
-  CharacterSheet,
-  type CustomSection,
-} from 'ui/8bit/blocks/character-sheet'
-import { Button, Card, CardContent } from 'ui/8bit'
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from 'ui'
+import { Progress } from 'ui/progress'
 
 interface SceneUnitCharacterSheetProps {
   unit: SceneUnit
@@ -50,10 +47,9 @@ export function SceneUnitCharacterSheet({
 
   if (isPending) {
     return (
-      <Card className="border-slate-700 bg-slate-900/70">
-        <CardContent className="p-4 text-xs leading-5 text-slate-400">
-          Loading <span className="font-bold text-slate-200">{unit.character.index}</span>{' '}
-          from the D&amp;D 5e API…
+      <Card className="h-full">
+        <CardContent className="p-4 text-sm text-muted-foreground">
+          Loading <span className="font-medium text-foreground">{unit.character.index}</span> from the D&amp;D 5e API…
         </CardContent>
       </Card>
     )
@@ -61,66 +57,114 @@ export function SceneUnitCharacterSheet({
 
   if (isError || !monster) {
     return (
-      <Card className="border-red-900 bg-slate-900/70">
+      <Card className="h-full border-destructive/40">
         <CardContent className="flex items-center justify-between gap-3 p-4">
-          <p className="text-xs leading-5 text-slate-400">
-            Could not load <span className="font-bold text-slate-200">{unit.character.index}</span>{' '}
-            from the D&amp;D 5e API.
+          <p className="text-sm text-muted-foreground">
+            Could not load <span className="font-medium text-foreground">{unit.character.index}</span> from the D&amp;D 5e API.
           </p>
           <Button
             type="button"
             variant="ghost"
-            size="icon"
-            className="size-7 shrink-0 text-slate-400 hover:text-red-400"
+            size="icon-sm"
+            className="shrink-0 text-destructive hover:text-destructive"
             onClick={onRemove}
             aria-label={`Remove ${unit.character.index}`}
           >
-            <Trash2 className="size-3.5" aria-hidden="true" />
+            <Trash2 className="size-4" aria-hidden="true" />
           </Button>
         </CardContent>
       </Card>
     )
   }
 
-  const customSections: CustomSection[] = [
-    {
-      title: 'Scene kit',
-      content: (
-        <div className="space-y-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="text-xs text-muted-foreground">
-              {unit.unitType === 'NPC' ? 'NPC stat block' : 'Monster stat block'} ·{' '}
-              AC {monster.armorClass ?? '—'} · {getSpeed(monster.speed)}
-            </span>
-            <a
-              href={monster.sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-bold text-orange-400 hover:text-orange-300"
-            >
-              D&amp;D 5e API
-              <ExternalLink className="size-3" aria-hidden="true" />
-            </a>
+  const stats = [
+    ['STR', monster.strength],
+    ['DEX', monster.dexterity],
+    ['CON', monster.constitution],
+  ] as const
+
+  return (
+    <Card className="h-full gap-4 py-4">
+      <CardHeader className="px-4">
+        <div className="flex items-start gap-3">
+          <img
+            src={getDnd5eAvatarUrl(monster)}
+            alt=""
+            className="size-12 shrink-0 rounded-lg border border-border object-cover"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <CardTitle className="truncate text-base">{monster.name}</CardTitle>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {[monster.size, monster.type].filter(Boolean).join(' · ')}
+                </p>
+              </div>
+              <Badge variant="secondary" className="shrink-0">
+                {unit.unitType === 'NPC' ? 'NPC' : 'Monster'}
+              </Badge>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {monster.alignment ?? 'Unaligned'} · CR {getChallengeRating(monster.challengeRating)}
+            </p>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-7 px-2 text-xs text-slate-400 hover:text-red-400"
-            onClick={onRemove}
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-4 px-4">
+        {monster.hitPoints !== undefined && (
+          <div>
+            <div className="mb-1.5 flex justify-between text-xs text-muted-foreground">
+              <span>Hit points</span>
+              <span>{monster.hitPoints}</span>
+            </div>
+            <Progress value={100} />
+          </div>
+        )}
+
+        <div className="grid grid-cols-3 gap-2">
+          {stats.map(([label, value]) => (
+            <div key={label} className="rounded-md bg-muted px-2 py-2 text-center">
+              <p className="text-[11px] font-medium text-muted-foreground">{label}</p>
+              <p className="mt-0.5 text-sm font-semibold">{value ?? '—'}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span>AC {monster.armorClass ?? '—'} · {getSpeed(monster.speed)}</span>
+          <a
+            href={monster.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
           >
-            <Trash2 className="size-3.5" aria-hidden="true" />
-            Remove from scene
-          </Button>
-          {unit.loot.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No equipment assigned.</p>
-          ) : (
-            <div className="flex flex-wrap gap-1.5">
+            D&amp;D 5e API
+            <ExternalLink className="size-3" aria-hidden="true" />
+          </a>
+        </div>
+
+        <div className="border-t border-border pt-3">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <p className="text-xs font-medium">Equipment</p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-destructive hover:text-destructive"
+              onClick={onRemove}
+            >
+              <Trash2 className="size-3.5" aria-hidden="true" />
+              Remove
+            </Button>
+          </div>
+          {unit.loot.length > 0 && (
+            <div className="mb-2 flex flex-wrap gap-1.5">
               {unit.loot.map((loot) => (
                 <button
                   key={loot.index}
                   type="button"
-                  className="border border-orange-500/40 bg-orange-500/10 px-2 py-1 text-[10px] font-bold text-orange-300 hover:border-red-400 hover:text-red-300"
+                  className="rounded-md border border-border bg-muted px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-destructive/50 hover:text-destructive"
                   onClick={() => onRemoveLoot(loot.index)}
                   title="Remove equipment"
                 >
@@ -133,21 +177,18 @@ export function SceneUnitCharacterSheet({
             <select
               value={selectedEquipmentIndex}
               onChange={(event) => setSelectedEquipmentIndex(event.target.value)}
-              className="min-w-0 flex-1 border border-slate-700 bg-slate-950 px-2 py-1.5 text-[11px] font-semibold text-slate-200 outline-none focus:border-orange-400"
+              className="h-8 min-w-0 flex-1 rounded-md border border-input bg-background px-2 text-xs outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
               aria-label={`Choose equipment for ${monster.name}`}
             >
               <option value="">Give D&amp;D equipment…</option>
               {equipment.map((item) => (
-                <option key={item.index} value={item.index}>
-                  {item.name}
-                </option>
+                <option key={item.index} value={item.index}>{item.name}</option>
               ))}
             </select>
             <Button
               type="button"
               variant="outline"
-              size="icon"
-              className="size-7"
+              size="icon-sm"
               disabled={
                 !selectedEquipmentIndex ||
                 unit.loot.some((loot) => loot.index === selectedEquipmentIndex)
@@ -158,40 +199,11 @@ export function SceneUnitCharacterSheet({
               }}
               aria-label={`Give equipment to ${monster.name}`}
             >
-              <PackagePlus className="size-3.5" aria-hidden="true" />
+              <PackagePlus className="size-4" aria-hidden="true" />
             </Button>
           </div>
         </div>
-      ),
-    },
-  ]
-
-  return (
-    <CharacterSheet
-      className="h-full min-w-0 border-slate-700 bg-slate-900/70 text-slate-100"
-      characterName={monster.name}
-      characterClass={[monster.size, monster.type].filter(Boolean).join(' · ')}
-      characterTitle={`${monster.alignment ?? 'Unaligned'} · CR ${getChallengeRating(monster.challengeRating)}`}
-      avatarSrc={getDnd5eAvatarUrl(monster)}
-      avatarFallback={monster.name.slice(0, 2)}
-      primaryAttributes={[
-        { name: 'Strength', shortName: 'STR', value: monster.strength },
-        { name: 'Dexterity', shortName: 'DEX', value: monster.dexterity },
-        { name: 'Constitution', shortName: 'CON', value: monster.constitution },
-      ]}
-      health={
-        monster.hitPoints === undefined
-          ? undefined
-          : { current: monster.hitPoints, max: monster.hitPoints }
-      }
-      customSections={customSections}
-      compact
-      showLevel={false}
-      showHealth={monster.hitPoints !== undefined}
-      showMana={false}
-      showExperience={false}
-      showSecondaryStats={false}
-      showEquipment={false}
-    />
+      </CardContent>
+    </Card>
   )
 }

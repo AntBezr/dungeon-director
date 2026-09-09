@@ -6,7 +6,7 @@ import {
   type CampaignSceneOrder,
 } from '@entities/campaign'
 import { ROUTES } from '@shared/models/routes'
-import { Card } from 'ui/8bit'
+import { Card } from 'ui'
 
 import { useSceneOrderAutosave } from '../model/useSceneOrderAutosave'
 import { SceneActions } from './SceneActions'
@@ -60,7 +60,7 @@ export function WorkspaceTimeline() {
   if (isLoading) {
     return (
       <section className="flex min-w-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <Card className="border-slate-800 bg-slate-900/50 p-5 text-sm text-slate-400">
+        <Card className="p-5 text-sm text-muted-foreground">
           Loading campaign data...
         </Card>
       </section>
@@ -70,7 +70,7 @@ export function WorkspaceTimeline() {
   if (isError) {
     return (
       <section className="flex min-w-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
-        <Card className="border-slate-800 bg-slate-900/50 p-5 text-sm text-slate-400">
+        <Card className="p-5 text-sm text-muted-foreground">
           Error loading campaign data.
         </Card>
       </section>
@@ -78,16 +78,16 @@ export function WorkspaceTimeline() {
   }
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
+    <section className="flex min-w-0 flex-1 flex-col py-8 sm:py-10">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-400">
+          <p className="text-sm font-medium text-primary">
             Campaign Workspace / Scene Timeline
           </p>
-          <h1 className="mt-7 text-3xl font-bold tracking-normal text-slate-100">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Scene Timeline
           </h1>
-          <p className="mt-2 max-w-150 text-sm leading-5 text-slate-400">
+          <p className="mt-3 max-w-150 text-sm leading-6 text-muted-foreground">
             Reorder beats, keep encounter prep visible, and stage exactly what
             the table needs next.
           </p>
@@ -97,17 +97,17 @@ export function WorkspaceTimeline() {
 
       <div className="mt-6">
         <div className="space-y-4">
-          <Card className="flex min-h-10 items-center justify-between border-slate-800 bg-slate-900/50 px-4 py-3">
-            <h2 className="text-base font-bold text-slate-100">
+          <Card className="flex min-h-10 items-center justify-between px-4 py-3">
+            <h2 className="text-base font-semibold text-foreground">
               Next session run order
             </h2>
-            <p className="text-xs font-semibold text-slate-500">
+            <p className="text-sm text-muted-foreground">
               {orderedScenes.length} scenes in this campaign
             </p>
           </Card>
 
           {orderedScenes.length === 0 ? (
-            <Card className="border-slate-800 bg-slate-900/50 p-5 text-sm text-slate-400">
+            <Card className="p-5 text-sm text-muted-foreground">
               Scenes will appear here when the campaign data hook is connected.
             </Card>
           ) : (

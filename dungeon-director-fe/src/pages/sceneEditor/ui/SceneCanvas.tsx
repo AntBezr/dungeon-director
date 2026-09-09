@@ -14,12 +14,12 @@ export function SceneCanvas({ sceneName, map, onMapChange }: SceneCanvasProps) {
   const controls = useSceneMapControls(map, onMapChange)
 
   return (
-    <section className="min-w-0 border-b border-slate-800 p-4 sm:p-5 xl:border-r xl:border-b-0">
+    <section className="min-w-0 border-b border-border p-4 sm:p-5 xl:border-r xl:border-b-0">
       <div>
-        <h2 className="text-lg font-bold text-slate-100">
+        <h2 className="text-lg font-semibold text-foreground">
           {sceneName || 'Untitled scene'}
         </h2>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-sm text-muted-foreground">
           Upload, position and prepare the battle map.
         </p>
       </div>

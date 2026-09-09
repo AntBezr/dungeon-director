@@ -186,8 +186,8 @@ export function SceneEditorPage() {
   )
 
   return (
-    <main className="min-h-svh bg-(--app-background) p-3 text-slate-100 sm:p-6">
-      <section className="mx-auto min-h-[calc(100svh-24px)] w-full max-w-290 overflow-hidden border-2 border-slate-800 bg-(--app-surface) shadow-[8px_8px_0_var(--app-shadow)] sm:min-h-[calc(100svh-48px)]">
+    <main className="min-h-svh bg-background py-4 sm:py-6">
+      <section className="mx-auto w-full max-w-7xl overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <SceneEditorHeader
           workspacePath={workspacePath}
           editedSceneTitle={editedScene?.title}

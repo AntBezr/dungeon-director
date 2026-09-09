@@ -1,5 +1,5 @@
 import type { CampaignCardType } from '@entities/campaign/model/types'
-import { Button, Card } from 'ui/8bit'
+import { Button, Card } from 'ui'
 import { CampaignCard } from './CampaignCard'
 
 const filters = ['All campaigns', 'Drafts', 'Recent']
@@ -17,16 +17,16 @@ export function CampaignDashboard({
   isError,
 }: CampaignDashboardProps) {
   return (
-    <section className="px-4 py-6 sm:px-6">
+    <section className="py-8 sm:py-10">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-117.5">
-          <p className="mb-1 text-xs font-bold text-slate-500 uppercase">
+          <p className="mb-1 text-sm font-medium text-muted-foreground">
             Campaigns
           </p>
-          <h1 className="text-3xl leading-tight font-bold tracking-normal text-slate-100">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Campaign Dashboard
           </h1>
-          <p className="mt-2 text-sm leading-5 text-slate-400">
+          <p className="mt-3 text-sm leading-6 text-muted-foreground">
             Open any world, resume prep instantly, and keep your table-ready
             work in one place.
           </p>
@@ -50,7 +50,6 @@ export function CampaignDashboard({
               key={filter}
               variant={index === 0 ? 'default' : 'outline'}
               size="sm"
-              className="rounded-sm"
             >
               {filter}
             </Button>
@@ -59,10 +58,10 @@ export function CampaignDashboard({
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <h2 className="text-base font-semibold text-slate-100">
+        <h2 className="text-base font-semibold text-foreground">
           Current campaigns
         </h2>
-        <p className="text-xs font-medium text-slate-500">3 pinned · 9 total</p>
+        <p className="text-sm text-muted-foreground">3 pinned · 9 total</p>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3 items-stretch">
@@ -71,11 +70,11 @@ export function CampaignDashboard({
             <Card
               key={index}
               aria-label="Loading campaigns"
-              className="min-h-43.5 animate-pulse bg-slate-900/50"
+              className="min-h-43.5 animate-pulse bg-muted"
             />
           ))}
         {isError && (
-          <Card className="min-h-43.5 p-5 text-sm text-rose-300">
+          <Card className="min-h-43.5 p-5 text-sm text-destructive">
             Could not load campaigns. Please try again.
           </Card>
         )}

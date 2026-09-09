@@ -49,20 +49,17 @@ Avoid creating empty `ui`, `model`, or `api` folders until there is real code fo
 
 Use Tailwind classes in components. Keep custom CSS out of slices; `app/styles/index.css` exists only as the Tailwind entrypoint.
 
-Generated shadcn/8bit-style primitives are the one intentional exception to
-the FSD folder layout. They live in `src/components/ui` because the shadcn and
-8bit registries generate and reference files there. Treat this folder as a
+Generated shadcn primitives are the one intentional exception to the FSD
+folder layout. They live in `src/components/ui`; treat this folder as a
 vendor-style UI primitives layer, not as a product feature layer.
 
 ```ts
 import { Button, Card, Input } from 'ui'
-import { Button as BitButton } from 'ui/8bit'
 ```
 
-The `ui/*` alias points to `src/components/ui`, so registry components can
-import `ui/button` or `ui/8bit/...` exactly as generated. Keep generic
-primitives such as buttons, cards, badges, and inputs there; put code in
-`features` only when it represents a business action or flow.
+The `ui/*` alias points to `src/components/ui`. Keep generic primitives such
+as buttons, cards, badges, and inputs there; put code in `features` only when
+it represents a business action or flow.
 
 ## Type Safety
 

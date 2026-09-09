@@ -3,16 +3,16 @@ import { useState } from 'react'
 import { Badge, Button } from 'ui'
 
 const sceneQueue = [
-  ['01 Chapel Interior', 'Armed', 'text-orange-500'],
-  ['02 Roof Chase', 'SFX ready', 'text-teal-400'],
-  ['03 Vault Reveal', 'Pending', 'text-slate-500'],
+  ['01 Chapel Interior', 'Armed', 'text-primary'],
+  ['02 Roof Chase', 'SFX ready', 'text-emerald-500'],
+  ['03 Vault Reveal', 'Pending', 'text-muted-foreground'],
 ] as const
 
 const quickAssets = [
-  ['1', 'map_overlay_grid', 'Ready', 'text-teal-400'],
-  ['2', 'npc_cards_suspects', 'Pinned', 'text-orange-500'],
-  ['3', 'handout_seal_fragment', 'Hidden', 'text-slate-500'],
-  ['4', 'battle_cam_02', 'Standby', 'text-slate-500'],
+  ['1', 'map_overlay_grid', 'Ready', 'text-emerald-500'],
+  ['2', 'npc_cards_suspects', 'Pinned', 'text-primary'],
+  ['3', 'handout_seal_fragment', 'Hidden', 'text-muted-foreground'],
+  ['4', 'battle_cam_02', 'Standby', 'text-muted-foreground'],
 ] as const
 
 function CurrentScenePanel({
@@ -25,25 +25,24 @@ function CurrentScenePanel({
   onHoldChange: (isHeld: boolean) => void
 }) {
   return (
-    <section className="border-b border-slate-800 p-4">
-      <div className="border-l-4 border-orange-500 pl-3">
+    <section className="border-b border-border p-4">
+      <div className="border-l-4 border-primary pl-3">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[11px] font-bold tracking-wide text-slate-500 uppercase">
+            <p className="text-xs font-medium text-muted-foreground">
               Current Scene
             </p>
-            <h2 className="mt-1 text-lg font-bold text-slate-100">
+            <h2 className="mt-1 text-lg font-semibold text-foreground">
               {currentScene}
             </h2>
           </div>
           <Badge
-            variant="warning"
-            className="border-none bg-transparent px-0 py-0 text-[11px] font-bold uppercase"
+            variant="secondary"
           >
             Live 21:14
           </Badge>
         </div>
-        <p className="mt-3 text-sm leading-5 text-slate-300">
+        <p className="mt-3 text-sm leading-5 text-muted-foreground">
           {isHeld ? 'Scene is held for table discussion.' : '3 hostile actors active. Fog layer locked. Party split detected on'}
           {!isHeld && ' east corridor.'}
         </p>
@@ -52,7 +51,6 @@ function CurrentScenePanel({
         <Button
           type="button"
           onClick={() => onHoldChange(false)}
-          className="bg-orange-500 text-slate-950 hover:bg-orange-600"
         >
           Cut to map
         </Button>
@@ -72,12 +70,12 @@ function SceneQueuePanel({
   onSceneSelect: (scene: string) => void
 }) {
   return (
-    <section className="border-b border-slate-800 p-4">
+    <section className="border-b border-border p-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-bold tracking-wide text-slate-500 uppercase">
+        <h2 className="text-xs font-medium text-muted-foreground">
           Scene Queue
         </h2>
-        <span className="text-xs font-bold text-slate-500">Next 03</span>
+        <span className="text-xs text-muted-foreground">Next 03</span>
       </div>
       <div className="mt-4 space-y-4">
         {sceneQueue.map(([scene, state, tone]) => (
@@ -85,10 +83,10 @@ function SceneQueuePanel({
             key={scene}
             type="button"
             onClick={() => onSceneSelect(scene)}
-            className={`flex w-full items-center justify-between gap-4 border-l-2 px-2 py-1 text-left text-xs font-bold uppercase transition-colors ${
+            className={`flex w-full items-center justify-between gap-4 rounded-md px-2 py-2 text-left text-sm font-medium transition-colors ${
               currentScene === scene
-                ? 'border-orange-500 bg-slate-900 text-slate-100'
-                : 'border-transparent text-slate-300 hover:bg-slate-900'
+                ? 'bg-accent text-accent-foreground'
+                : 'text-muted-foreground hover:bg-muted'
             }`}
           >
             <span>{scene}</span>
@@ -105,26 +103,26 @@ function MusicPanel() {
   const [stingTriggered, setStingTriggered] = useState(false)
 
   return (
-    <section className="border-b border-slate-800 p-4">
+    <section className="border-b border-border p-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-bold tracking-wide text-slate-500 uppercase">
+        <h2 className="text-xs font-medium text-muted-foreground">
           Music Panel
         </h2>
-        <span className="text-xs font-bold text-slate-500">
+        <span className="text-xs text-muted-foreground">
           Bus A / -14 LUFS
         </span>
       </div>
-      <h3 className="mt-3 text-base font-bold text-slate-200">
+      <h3 className="mt-3 text-base font-semibold text-foreground">
         Lower Crypt Tension Bed
       </h3>
-      <p className="mt-2 text-xs font-semibold text-slate-500">
+      <p className="mt-2 text-xs text-muted-foreground">
         {isDucked ? 'ducked · cue point B · 32%' : 'looping · cue point B · 68%'}
       </p>
       <div className="mt-3 flex h-2 gap-1">
-        <span className="flex-1 bg-slate-100" />
-        <span className="flex-1 bg-slate-100" />
-        <span className="flex-1 bg-slate-100" />
-        <span className="flex-1 bg-orange-500" />
+        <span className="flex-1 rounded-full bg-primary/20" />
+        <span className="flex-1 rounded-full bg-primary/20" />
+        <span className="flex-1 rounded-full bg-primary/20" />
+        <span className="flex-1 rounded-full bg-primary" />
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2">
         <Button type="button" variant="outline" onClick={() => setIsDucked((ducked) => !ducked)}>
@@ -140,20 +138,20 @@ function MusicPanel() {
 
 function QuickAssetsPanel() {
   return (
-    <section className="border-b border-slate-800 p-4">
+    <section className="border-b border-border p-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-bold tracking-wide text-slate-500 uppercase">
+        <h2 className="text-xs font-medium text-muted-foreground">
           Quick Assets
         </h2>
-        <span className="text-xs font-bold text-slate-500">Hotkey 1-4</span>
+        <span className="text-xs text-muted-foreground">Hotkey 1-4</span>
       </div>
       <div className="mt-4 space-y-4">
         {quickAssets.map(([index, asset, state, tone]) => (
           <div
             key={asset}
-            className="flex items-center justify-between gap-4 text-xs font-bold uppercase"
+            className="flex items-center justify-between gap-4 text-sm"
           >
-            <span className="truncate text-slate-300">
+            <span className="truncate text-muted-foreground">
               {index} {asset}
             </span>
             <span className={tone}>{state}</span>
@@ -168,12 +166,12 @@ function SessionNotesPanel() {
   return (
     <section className="p-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-bold tracking-wide text-slate-500 uppercase">
+        <h2 className="text-xs font-medium text-muted-foreground">
           Session Notes
         </h2>
-        <span className="text-xs font-bold text-teal-400">Auto-save</span>
+        <span className="text-xs font-medium text-emerald-500">Auto-save</span>
       </div>
-      <div className="mt-4 space-y-3 text-xs leading-4 text-slate-300">
+      <div className="mt-4 space-y-3 text-sm leading-5 text-muted-foreground">
         <p>21:09 Cult emissary accepted parley after torch blackout.</p>
         <p>
           21:12 Rogue now isolated above nave. Trigger rain FX only if pursuit
@@ -193,7 +191,7 @@ export function DirectorRail() {
   const [isHeld, setIsHeld] = useState(false)
 
   return (
-    <aside className="bg-slate-950">
+    <aside className="bg-muted/30">
       <CurrentScenePanel
         currentScene={currentScene}
         isHeld={isHeld}

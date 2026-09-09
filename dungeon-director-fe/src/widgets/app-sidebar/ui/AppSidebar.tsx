@@ -1,12 +1,25 @@
-import { BookOpen, ChevronDown, Clapperboard, Home, LayoutPanelTop, Moon, Radio, ScrollText, Skull, Sun, Sword, UsersRound } from 'lucide-react'
+import {
+  BookOpen,
+  ChevronDown,
+  Clapperboard,
+  Home,
+  LayoutPanelTop,
+  Moon,
+  Radio,
+  ScrollText,
+  Skull,
+  Sun,
+  Sword,
+  UsersRound,
+} from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink, useParams } from 'react-router-dom'
 
-import { Badge, Button } from 'ui/8bit'
+import { Badge, Button } from 'ui'
 
-import { ROUTES } from '@shared/models/routes'
 import { useTheme } from '@shared/lib/theme'
+import { ROUTES } from '@shared/models/routes'
 
 interface NavigationItem {
   label: string
@@ -21,10 +34,10 @@ function NavigationLink({ label, to, icon: Icon, end }: NavigationItem) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex items-center gap-3 border-2 px-3 py-2.5 text-xs font-bold transition-colors ${
+        `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
           isActive
-            ? 'border-orange-500 bg-orange-500 text-slate-950'
-            : 'border-transparent text-slate-400 hover:border-slate-700 hover:bg-slate-900 hover:text-slate-100'
+            ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-sm'
+            : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
         }`
       }
     >
@@ -63,38 +76,34 @@ export function AppSidebar() {
   ]
 
   return (
-    <aside className="sticky top-0 hidden h-svh w-60 shrink-0 flex-col overflow-hidden border-r-2 border-slate-800 bg-slate-950/70 lg:flex">
-      <div className="border-b-2 border-slate-800 p-5">
+    <aside className="sticky top-0 hidden h-svh w-64 shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar lg:flex">
+      <div className="border-b border-sidebar-border p-5">
         <Link to={ROUTES.HOME} className="flex items-center gap-3 text-inherit no-underline">
-          <span className="grid size-9 place-items-center border-2 border-orange-400 bg-orange-500 text-slate-950 shadow-[3px_3px_0_var(--app-shadow)]">
+          <span className="grid size-9 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground shadow-sm">
             <LayoutPanelTop className="size-4" aria-hidden="true" />
           </span>
           <span>
-            <span className="block text-xs font-bold text-slate-100">Dungeon Director</span>
-            <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.12em] text-orange-400">
-              Campaign tools
-            </span>
+            <span className="block text-sm font-semibold text-sidebar-foreground">Dungeon Director</span>
+            <span className="mt-0.5 block text-xs text-muted-foreground">Campaign tools</span>
           </span>
         </Link>
       </div>
 
       <nav className="p-3" aria-label="Main navigation">
-        <p className="px-2 pb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">
-          Navigate
-        </p>
+        <p className="px-2 pb-2 text-xs font-medium text-muted-foreground">Navigate</p>
         <div className="space-y-1">
           {navigation.map((item) => (
             <NavigationLink key={item.label} {...item} />
           ))}
           <div className="pt-1">
-            <div className="flex items-stretch">
+            <div className="flex items-center">
               <NavLink
                 to={ROUTES.GLOSSARY.BASE}
                 className={({ isActive }) =>
-                  `flex min-w-0 flex-1 items-center gap-3 border-2 border-r-0 px-3 py-2.5 text-xs font-bold transition-colors ${
+                  `flex min-w-0 flex-1 items-center gap-3 rounded-l-lg px-3 py-2 text-sm font-medium transition-colors ${
                     isActive
-                      ? 'border-orange-500 bg-orange-500 text-slate-950'
-                      : 'border-slate-700 text-slate-400 hover:bg-slate-900 hover:text-slate-100'
+                      ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-sm'
+                      : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                   }`
                 }
               >
@@ -106,7 +115,7 @@ export function AppSidebar() {
                 aria-label="Toggle glossary navigation"
                 aria-expanded={isGlossaryOpen}
                 onClick={() => setIsGlossaryOpen((isOpen) => !isOpen)}
-                className="grid w-9 place-items-center border-2 border-slate-700 text-slate-400 transition-colors hover:bg-slate-900 hover:text-slate-100"
+                className="grid size-9 place-items-center rounded-r-lg text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
                 <ChevronDown
                   className={`size-4 transition-transform ${isGlossaryOpen ? 'rotate-180' : ''}`}
@@ -116,16 +125,16 @@ export function AppSidebar() {
             </div>
 
             {isGlossaryOpen && (
-              <div className="mt-1 space-y-1 border-l-2 border-slate-800 py-1 pl-3">
+              <div className="mt-1 space-y-1 border-l border-sidebar-border py-1 pl-3">
                 {glossaryNavigation.map(({ label, to, icon: Icon }) => (
                   <NavLink
                     key={label}
                     to={to}
                     className={({ isActive }) =>
-                      `flex items-center gap-2 px-3 py-2 text-[11px] font-bold transition-colors ${
+                      `flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
                         isActive
-                          ? 'bg-orange-500 text-slate-950'
-                          : 'text-slate-500 hover:bg-slate-900 hover:text-slate-100'
+                          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                          : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                       }`
                     }
                   >
@@ -139,18 +148,16 @@ export function AppSidebar() {
         </div>
       </nav>
 
-      <div className="mt-auto border-t-2 border-slate-800 p-4">
-        <Badge variant="warning" className="text-[10px] text-slate-950">
-          SESSION 18
-        </Badge>
-        <p className="mt-4 flex items-center gap-2 text-xs font-bold text-slate-200">
-          <Radio className="size-3.5 text-orange-400" aria-hidden="true" />
+      <div className="mt-auto border-t border-sidebar-border p-4">
+        <Badge variant="secondary" className="w-fit">Session 18</Badge>
+        <p className="mt-4 flex items-center gap-2 text-sm font-medium text-sidebar-foreground">
+          <Radio className="size-3.5 text-primary" aria-hidden="true" />
           Prep mode active
         </p>
-        <p className="mt-2 text-xs leading-5 text-slate-500">
+        <p className="mt-2 text-xs leading-5 text-muted-foreground">
           Timeline changes are ready to send to the GM screen.
         </p>
-        <Button variant="outline" size="sm" className="mt-4 w-full text-xs">
+        <Button variant="outline" size="sm" className="mt-4 w-full">
           <ScrollText className="size-3.5" aria-hidden="true" />
           Open session notes
         </Button>
@@ -159,7 +166,7 @@ export function AppSidebar() {
           variant="outline"
           size="sm"
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="mt-3 w-full border-slate-700 bg-slate-900/50 text-xs text-slate-300 hover:bg-slate-900 hover:text-slate-100"
+          className="mt-3 w-full"
           aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         >
           {theme === 'dark' ? (

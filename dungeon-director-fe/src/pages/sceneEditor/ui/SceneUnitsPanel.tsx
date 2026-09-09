@@ -8,7 +8,7 @@ import {
   type Dnd5eCatalogEntry,
 } from '@entities/dnd5e'
 import type { SceneUnit, SceneUnitType } from '@entities/campaign/model/types'
-import { Badge, Button, Card, CardContent } from 'ui/8bit'
+import { Badge, Button, Card, CardContent } from 'ui'
 
 import { SceneUnitCharacterSheet } from './SceneUnitCharacterSheet'
 
@@ -60,15 +60,15 @@ function UnitPicker({
 
   return (
     <label className="block">
-      <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-        <Icon className="size-3.5 text-orange-400" aria-hidden="true" />
+      <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <Icon className="size-3.5 text-primary" aria-hidden="true" />
         {label}
       </span>
       <div className="mt-2 flex gap-2">
         <select
           value={selectedMonsterIndex}
           onChange={(event) => setSelectedMonsterIndex(event.target.value)}
-          className="min-w-0 flex-1 border border-slate-700 bg-slate-900 px-2 py-2 text-xs font-semibold text-slate-200 outline-none focus:border-orange-400"
+          className="h-9 min-w-0 flex-1 rounded-md border border-input bg-background px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
           disabled={disabled}
           aria-label={label}
         >
@@ -82,7 +82,7 @@ function UnitPicker({
         <Button
           type="button"
           size="icon"
-          className="size-8 bg-orange-500 text-slate-950 hover:bg-orange-400"
+          className="size-8"
           disabled={disabled || !selectedMonsterIndex}
           onClick={() => {
             onAddUnit(unitType, selectedMonsterIndex)
@@ -116,23 +116,23 @@ export function SceneUnitsPanel({
   const isCatalogUnavailable = monsterIndexQuery.isError || equipmentIndexQuery.isError
 
   return (
-    <section className="border-b border-slate-800 bg-slate-950 px-4 py-6 sm:px-5 sm:py-7">
+    <section className="border-b border-border px-4 py-6 sm:px-5 sm:py-7">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div className="max-w-md">
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold text-slate-100">Scene characters</h2>
-            <Badge variant="outline" className="text-[10px] text-slate-400">
+            <h2 className="text-xl font-semibold text-foreground">Scene characters</h2>
+            <Badge variant="secondary">
               {units.length}
             </Badge>
           </div>
-          <p className="mt-2 text-xs leading-5 text-slate-500">
+          <p className="mt-2 text-sm leading-5 text-muted-foreground">
             Every stat block is a reference to the D&amp;D 5e API, not a copied snapshot.
           </p>
           <a
             href={dnd5eWebsiteUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-orange-400 hover:text-orange-300"
+            className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
           >
             Browse source glossary
             <ExternalLink className="size-3" aria-hidden="true" />
@@ -140,7 +140,7 @@ export function SceneUnitsPanel({
         </div>
 
         <div className="grid w-full gap-3 sm:grid-cols-2 xl:max-w-150">
-          <div className="border border-slate-800 bg-slate-900/40 p-3">
+          <div className="rounded-lg border border-border bg-card p-3">
             <UnitPicker
               label="Add NPC"
               placeholder={monsterIndexQuery.isPending ? 'Loading stat blocks…' : 'Choose NPC stat block…'}
@@ -151,7 +151,7 @@ export function SceneUnitsPanel({
               onAddUnit={onAddUnit}
             />
           </div>
-          <div className="border border-slate-800 bg-slate-900/40 p-3">
+          <div className="rounded-lg border border-border bg-card p-3">
             <UnitPicker
               label="Add monster"
               placeholder={monsterIndexQuery.isPending ? 'Loading stat blocks…' : 'Choose monster…'}
@@ -166,15 +166,15 @@ export function SceneUnitsPanel({
       </div>
 
       {isCatalogUnavailable && (
-        <p className="mt-4 text-xs leading-5 text-red-300">
+        <p className="mt-4 text-sm leading-5 text-destructive">
           The D&amp;D 5e API is unavailable. Existing scene references remain intact.
         </p>
       )}
 
       <div className="mt-6 grid gap-5 lg:grid-cols-2">
         {units.length === 0 ? (
-          <Card className="border-dashed border-slate-700 bg-slate-900/40 lg:col-span-2">
-            <CardContent className="p-4 text-xs leading-5 text-slate-500">
+          <Card className="border-dashed lg:col-span-2">
+            <CardContent className="p-4 text-sm leading-5 text-muted-foreground">
               The scene has no characters yet.
             </CardContent>
           </Card>

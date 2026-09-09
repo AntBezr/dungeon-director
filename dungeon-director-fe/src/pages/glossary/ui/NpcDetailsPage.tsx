@@ -1,7 +1,7 @@
 import { ArrowLeft, MapPin, ScrollText, UsersRound } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from 'ui/8bit'
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from 'ui'
 
 import { npcs } from '../data'
 import { ROUTES } from '@shared/models/routes'
@@ -16,7 +16,7 @@ export function NpcDetailsPage() {
 
   return (
     <section className="px-5 py-7 sm:px-7 sm:py-9">
-      <Button asChild variant="ghost" size="sm" className="-ml-3 text-xs text-slate-400 hover:text-white">
+      <Button asChild variant="ghost" size="sm" className="-ml-3 text-muted-foreground">
         <Link to={ROUTES.GLOSSARY.CREATURES.NPCS}>
           <ArrowLeft className="size-3.5" aria-hidden="true" />
           All NPCs
@@ -24,38 +24,38 @@ export function NpcDetailsPage() {
       </Button>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-        <Card className="border-slate-800 bg-slate-900/50">
+        <Card>
           <CardHeader>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="warning" className="text-xs text-slate-950">{npc.allegiance}</Badge>
+              <Badge variant="secondary">{npc.allegiance}</Badge>
               {npc.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs text-slate-300">{tag}</Badge>
+                <Badge key={tag} variant="outline">{tag}</Badge>
               ))}
             </div>
-            <CardTitle className="mt-5 text-3xl text-slate-100">{npc.name}</CardTitle>
-            <CardDescription className="mt-2 text-sm font-bold text-orange-400">{npc.role}</CardDescription>
-            <CardDescription className="mt-4 text-sm leading-6 text-slate-400">{npc.description}</CardDescription>
+            <CardTitle className="mt-5 text-3xl">{npc.name}</CardTitle>
+            <CardDescription className="mt-2 text-sm font-medium text-primary">{npc.role}</CardDescription>
+            <CardDescription className="mt-4 text-sm leading-6">{npc.description}</CardDescription>
           </CardHeader>
           <CardContent className="pb-6">
-            <p className="inline-flex items-center gap-2 text-xs text-slate-500">
+            <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="size-3.5" aria-hidden="true" />
               {npc.location}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/50">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base text-slate-100">
-              <UsersRound className="size-4 text-orange-400" aria-hidden="true" />
+            <CardTitle className="flex items-center gap-2 text-base">
+              <UsersRound className="size-4 text-primary" aria-hidden="true" />
               At a glance
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3 pb-6">
             {npc.stats.map((stat) => (
-              <div key={stat.label} className="border-2 border-slate-700 bg-slate-950/70 p-3">
-                <p className="text-[10px] font-bold uppercase text-slate-500">{stat.label}</p>
-                <p className="mt-2 text-lg font-bold text-orange-400">{stat.value}</p>
+              <div key={stat.label} className="rounded-lg bg-muted p-3">
+                <p className="text-xs font-medium text-muted-foreground">{stat.label}</p>
+                <p className="mt-2 text-lg font-semibold text-foreground">{stat.value}</p>
               </div>
             ))}
           </CardContent>
@@ -63,16 +63,16 @@ export function NpcDetailsPage() {
       </div>
 
       <div className="mt-6">
-        <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-          <ScrollText className="size-3.5 text-orange-400" aria-hidden="true" />
+        <p className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+          <ScrollText className="size-3.5 text-primary" aria-hidden="true" />
           Scene hooks
         </p>
         <div className="mt-3 grid gap-4 md:grid-cols-3">
           {npc.hooks.map((hook, index) => (
-            <Card key={hook} className="bg-slate-900/50">
+            <Card key={hook}>
               <CardHeader>
-                <CardDescription className="text-xs font-bold text-orange-400">HOOK 0{index + 1}</CardDescription>
-                <CardTitle className="mt-3 text-sm leading-6 text-slate-100">{hook}</CardTitle>
+                <CardDescription className="text-sm font-medium text-primary">Hook 0{index + 1}</CardDescription>
+                <CardTitle className="mt-3 text-sm leading-6">{hook}</CardTitle>
               </CardHeader>
             </Card>
           ))}

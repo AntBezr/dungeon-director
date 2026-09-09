@@ -16,8 +16,8 @@ export function SceneEditorFooter({
   canSave,
 }: SceneEditorFooterProps) {
   return (
-    <footer className="flex flex-col gap-3 border-t border-slate-800 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs font-semibold text-slate-500">
+    <footer className="flex flex-col gap-3 border-t border-border px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+      <p className="text-sm text-muted-foreground">
         {canSave
           ? 'Save writes map, grid, Spotify and units into the campaign mock.'
           : 'Choose an existing scene from the timeline to save changes.'}

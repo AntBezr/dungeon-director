@@ -3,7 +3,7 @@ import type { KeyboardEvent } from 'react'
 
 import type { SceneMapSettings } from '@entities/campaign/model/types'
 import type { SceneMapControls as SceneMapControlsState } from '../model/useSceneMapControls'
-import { Button } from 'ui/8bit'
+import { Button } from 'ui'
 
 interface NumericMapControlProps {
   label: string
@@ -42,9 +42,9 @@ function NumericMapControl({
 
   return (
     <label className="block">
-      <span className="flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+      <span className="flex items-center justify-between gap-2 text-xs font-medium text-muted-foreground">
         {label}
-        <span className="flex items-center gap-1 text-slate-300 normal-case tracking-normal">
+        <span className="flex items-center gap-1 text-foreground">
           <input
             type="text"
             inputMode="decimal"
@@ -53,7 +53,7 @@ function NumericMapControl({
             onChange={(event) => onInputChange(event.target.value)}
             onBlur={onInputBlur}
             onKeyDown={handleKeyDown}
-            className="w-12 border border-slate-700 bg-slate-900 px-1 py-0.5 text-right text-[11px] outline-none focus:border-orange-400 disabled:opacity-40"
+            className="w-12 rounded-md border border-input bg-background px-1 py-0.5 text-right text-xs outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:opacity-40"
             aria-label={ariaLabel}
           />
           {suffix}
@@ -67,7 +67,7 @@ function NumericMapControl({
         value={rangeValue}
         disabled={disabled}
         onChange={(event) => onRangeChange(Number(event.target.value))}
-        className="mt-2 w-full accent-orange-500 disabled:opacity-40"
+        className="mt-2 w-full accent-primary disabled:opacity-40"
       />
     </label>
   )
@@ -80,7 +80,7 @@ interface SceneMapControlsProps {
 
 export function SceneMapControls({ map, controls }: SceneMapControlsProps) {
   return (
-    <div className="mt-4 grid gap-4 border-t border-slate-800 pt-4 sm:grid-cols-2 2xl:grid-cols-4">
+    <div className="mt-4 grid gap-4 border-t border-border pt-4 sm:grid-cols-2 2xl:grid-cols-4">
       <NumericMapControl
         label="Rotation"
         inputValue={controls.rotationInput}
@@ -121,7 +121,7 @@ export function SceneMapControls({ map, controls }: SceneMapControlsProps) {
         onRangeChange={controls.setGridSize}
       />
       <div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+        <span className="text-xs font-medium text-muted-foreground">
           Map tools
         </span>
         <div className="mt-2 flex gap-2">

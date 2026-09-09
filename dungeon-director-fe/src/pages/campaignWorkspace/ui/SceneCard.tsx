@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronUp, Pencil, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-import { Button, Card, CardContent, CardHeader } from 'ui/8bit'
+import { Button, Card, CardContent, CardHeader } from 'ui'
 
 import type { WorkspaceScene } from './types'
 
@@ -23,22 +23,22 @@ export function SceneCard({
   onMove,
 }: SceneCardProps) {
   return (
-    <Card className="border-slate-800 bg-slate-900/50 transition-transform hover:-translate-y-0.5 hover:border-slate-600">
+    <Card className="transition-shadow hover:shadow-md">
       <CardHeader className="p-4">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+            <span className="text-xs font-medium text-muted-foreground">
               Scene {index + 1} of {total}
             </span>
-            <h3 className="mt-1 text-lg font-bold tracking-normal text-slate-100">
+            <h3 className="mt-1 text-lg font-semibold text-foreground">
               {scene.title}
             </h3>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <span className="text-xs font-bold text-slate-500">
+            <span className="text-sm text-muted-foreground">
               {scene.approximateDuration} min
             </span>
-            <div className="flex items-center gap-1 border-l border-slate-800 pl-2">
+            <div className="flex items-center gap-1 border-l border-border pl-2">
               <Link
                 to={editScenePath}
                 aria-label={`Edit ${scene.title}`}
@@ -48,7 +48,7 @@ export function SceneCard({
                   asChild
                   variant="outline"
                   size="icon"
-                  className="size-7"
+                  className="size-8"
                 >
                   <Pencil className="size-3.5" aria-hidden="true" />
                 </Button>
@@ -62,7 +62,7 @@ export function SceneCard({
                 <Button
                   asChild
                   size="icon"
-                  className="size-7 bg-orange-500 text-slate-950 hover:bg-orange-400"
+                  className="size-8"
                 >
                   <Play className="size-3.5" aria-hidden="true" />
                 </Button>
@@ -72,9 +72,9 @@ export function SceneCard({
         </div>
       </CardHeader>
       <CardContent className="px-4 pb-4">
-        <p className="text-sm leading-5 text-slate-400">{scene.description}</p>
-        <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-3">
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+        <p className="text-sm leading-5 text-muted-foreground">{scene.description}</p>
+        <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
+          <span className="text-xs font-medium text-muted-foreground">
             Reorder timeline
           </span>
           <div className="flex flex-wrap justify-end gap-2">

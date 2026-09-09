@@ -54,16 +54,16 @@ function ActorCard({
   onVisibilityChange: () => void
 }) {
   return (
-    <Card className="bg-slate-900/60">
+    <Card className="gap-0 py-0">
       <CardContent className="p-3">
         <div className="flex items-center gap-3">
-          <span className={`size-7 shrink-0 rounded-sm ${actor.color}`} />
+          <span className={`size-7 shrink-0 rounded-full ${actor.color}`} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-2">
-              <p className="truncate text-sm font-bold text-slate-200">
+              <p className="truncate text-sm font-medium text-foreground">
                 {actor.name}
               </p>
-              <p className="shrink-0 text-xs font-semibold text-slate-500">
+              <p className="shrink-0 text-xs text-muted-foreground">
                 {isVisible ? 'Visible' : 'Hidden'} · {actor.hp}
               </p>
             </div>
@@ -71,11 +71,11 @@ function ActorCard({
               <button
                 type="button"
                 onClick={onVisibilityChange}
-                className="text-xs font-semibold text-orange-400 hover:text-orange-500"
+                className="text-xs font-medium text-primary hover:underline"
               >
                 {isVisible ? 'Hide' : 'Show'}
               </button>
-              <button type="button" className="text-xs font-semibold text-slate-300 hover:text-slate-100">
+              <button type="button" className="text-xs font-medium text-muted-foreground hover:text-foreground">
                 Focus
               </button>
             </div>
@@ -96,17 +96,17 @@ export function ActorsSidebar() {
   )
 
   return (
-    <aside className="border-b border-slate-800 bg-slate-950 lg:border-r lg:border-b-0">
-      <div className="border-b border-slate-800 p-3">
-        <h2 className="text-lg font-bold text-slate-100">Actors</h2>
-        <p className="mt-1 text-xs font-medium text-slate-500">
+    <aside className="border-b border-border bg-muted/30 lg:border-r lg:border-b-0">
+      <div className="border-b border-border p-4">
+        <h2 className="text-lg font-semibold text-foreground">Actors</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
           Reveal, hide, focus, and update HP in 1 click.
         </p>
         <div className="relative mt-3">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             aria-label="Search actors"
-            className="h-9  border-slate-800 bg-slate-900 pl-9 text-xs"
+            className="h-9 bg-background pl-9 text-sm"
             placeholder="Search actors, tags, statuses"
           />
         </div>
@@ -115,7 +115,7 @@ export function ActorsSidebar() {
       <div className="space-y-4 p-3">
         {actors.map((group) => (
           <section key={group.group}>
-            <h3 className="mb-2 text-xs font-bold text-slate-500">
+            <h3 className="mb-2 text-xs font-medium text-muted-foreground">
               {group.group}
             </h3>
             <div className="space-y-2">
@@ -137,15 +137,14 @@ export function ActorsSidebar() {
         ))}
       </div>
 
-      <section className="border-t border-slate-800 bg-slate-900/40 p-3">
+      <section className="border-t border-border p-4">
         <Badge
-          variant="warning"
-          className="border-none bg-transparent px-0 py-0 text-[11px] font-bold"
+          variant="secondary"
         >
           Combat Active
         </Badge>
-        <h2 className="mt-2 text-lg font-bold text-slate-100">Combat Panel</h2>
-        <div className="mt-4 space-y-4 text-xs leading-4 text-slate-300">
+        <h2 className="mt-3 text-lg font-semibold text-foreground">Combat Panel</h2>
+        <div className="mt-4 space-y-4 text-sm leading-5 text-muted-foreground">
           <p>
             Active monsters
             <br />
@@ -158,7 +157,7 @@ export function ActorsSidebar() {
             <br />
             Reveal archers after wagon stop.
           </p>
-          <p className="text-slate-500">
+          <p>
             No initiative, dice, or automation here. Keep this panel immediate.
           </p>
         </div>

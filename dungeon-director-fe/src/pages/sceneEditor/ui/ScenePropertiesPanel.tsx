@@ -43,18 +43,15 @@ export function ScenePropertiesPanel({
   const spotifyEmbedUrl = getSpotifyEmbedUrl(spotifyUrl)
 
   return (
-    <aside className="bg-slate-950 p-4 sm:p-5">
-      <h2 className="text-lg font-bold text-slate-100">Properties</h2>
-      <Badge
-        variant="warning"
-        className="mt-4 border-none bg-orange-500 px-3 py-2 text-slate-950"
-      >
+    <aside className="bg-muted/50 p-4 sm:p-5">
+      <h2 className="text-lg font-semibold text-foreground">Properties</h2>
+      <Badge variant="secondary" className="mt-4">
         Draft scene
       </Badge>
 
       <div className="mt-5 space-y-5">
         <label className="block">
-          <span className="text-xs font-bold text-slate-500">Scene Name</span>
+          <span className="text-sm font-medium text-foreground">Scene name</span>
           <Input
             className="mt-2"
             value={title}
@@ -63,7 +60,7 @@ export function ScenePropertiesPanel({
         </label>
 
         <label className="block">
-          <span className="text-xs font-bold text-slate-500">Description</span>
+          <span className="text-sm font-medium text-foreground">Description</span>
           <Textarea
             className="mt-2 min-h-24"
             value={description}
@@ -72,7 +69,7 @@ export function ScenePropertiesPanel({
         </label>
 
         <label className="block">
-          <span className="text-xs font-bold text-slate-500">Duration · min</span>
+          <span className="text-sm font-medium text-foreground">Duration · min</span>
           <Input
             className="mt-2"
             type="number"
@@ -82,9 +79,9 @@ export function ScenePropertiesPanel({
           />
         </label>
 
-        <div className="border-t border-slate-800 pt-5">
+        <div className="border-t border-border pt-5">
           <label className="block">
-            <span className="text-xs font-bold text-slate-500">Spotify URL</span>
+            <span className="text-sm font-medium text-foreground">Spotify URL</span>
             <Input
               className="mt-2"
               value={spotifyUrl}
@@ -101,7 +98,7 @@ export function ScenePropertiesPanel({
               loading="lazy"
             />
           ) : (
-            <p className="mt-3 text-xs leading-5 text-slate-600">
+            <p className="mt-3 text-xs leading-5 text-muted-foreground">
               Paste a public Spotify track, album or playlist link to show the player.
             </p>
           )}

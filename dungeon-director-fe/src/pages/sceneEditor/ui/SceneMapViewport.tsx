@@ -97,7 +97,7 @@ export function SceneMapViewport({
   return (
     <>
       <div className="mt-4 flex justify-end">
-        <label className="inline-flex h-8 cursor-pointer items-center justify-center gap-1.5 border border-slate-700 bg-slate-900 px-3 text-xs font-bold text-slate-200 transition-colors hover:border-orange-400 hover:text-orange-300">
+        <label className="inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent">
           <Upload className="size-3.5" aria-hidden="true" />
           Upload PNG
           <input
@@ -109,9 +109,9 @@ export function SceneMapViewport({
         </label>
       </div>
 
-      <div className="mt-3 overflow-hidden border-2 border-slate-700 bg-slate-950 p-2">
+      <div className="mt-3 overflow-hidden rounded-lg border border-border bg-muted p-2">
         <div
-          className={`relative aspect-4/3 touch-none overflow-hidden bg-[linear-gradient(45deg,#172033_25%,transparent_25%,transparent_75%,#172033_75%),linear-gradient(45deg,#172033_25%,transparent_25%,transparent_75%,#172033_75%)] bg-[size:24px_24px] bg-[position:0_0,12px_12px] ${
+          className={`relative aspect-4/3 touch-none overflow-hidden rounded-md bg-[linear-gradient(45deg,#cbd5e1_25%,transparent_25%,transparent_75%,#cbd5e1_75%),linear-gradient(45deg,#cbd5e1_25%,transparent_25%,transparent_75%,#cbd5e1_75%)] bg-[size:24px_24px] bg-[position:0_0,12px_12px] dark:bg-[linear-gradient(45deg,#1e293b_25%,transparent_25%,transparent_75%,#1e293b_75%),linear-gradient(45deg,#1e293b_25%,transparent_25%,transparent_75%,#1e293b_75%)] ${
             map.imageUrl
               ? isPanning
                 ? 'cursor-grabbing'
@@ -136,13 +136,13 @@ export function SceneMapViewport({
                 className="size-full object-cover"
               />
             ) : (
-              <div className="grid size-full place-items-center bg-slate-900/80 p-8 text-center">
+              <div className="grid size-full place-items-center bg-muted/90 p-8 text-center">
                 <div>
-                  <Upload className="mx-auto size-7 text-orange-400" aria-hidden="true" />
-                  <p className="mt-3 text-sm font-bold text-slate-200">
+                  <Upload className="mx-auto size-7 text-primary" aria-hidden="true" />
+                  <p className="mt-3 text-sm font-medium text-foreground">
                     Upload a PNG battle map
                   </p>
-                  <p className="mt-2 text-xs leading-5 text-slate-500">
+                  <p className="mt-2 text-xs leading-5 text-muted-foreground">
                     Its data URL will be stored in the scene mock on save.
                   </p>
                 </div>
@@ -156,8 +156,8 @@ export function SceneMapViewport({
             )}
           </div>
           {map.imageUrl && (
-            <div className="pointer-events-none absolute right-2 bottom-2 flex items-center gap-1 bg-slate-950/75 px-2 py-1 text-[10px] font-bold text-slate-300">
-              <Move className="size-3 text-orange-400" aria-hidden="true" />
+            <div className="pointer-events-none absolute right-2 bottom-2 flex items-center gap-1 rounded-md bg-background/90 px-2 py-1 text-xs font-medium text-foreground shadow-sm">
+              <Move className="size-3 text-primary" aria-hidden="true" />
               Drag to pan
             </div>
           )}

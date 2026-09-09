@@ -17,12 +17,12 @@ export function GameMasterHeader({
   activeSceneTitle,
 }: GameMasterHeaderProps) {
   return (
-    <header className="flex flex-col gap-4 border-b border-slate-800 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
+    <header className="flex flex-col gap-4 border-b border-border px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <h1 className="text-2xl font-bold tracking-normal text-slate-100">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           {campaignTitle}
         </h1>
-        <p className="text-sm font-semibold text-slate-500">
+        <p className="text-sm text-muted-foreground">
           {activeSceneTitle
             ? `Active scene · ${activeSceneTitle}`
             : 'Choose a scene from the timeline to start the game.'}
@@ -41,7 +41,7 @@ export function GameMasterHeader({
             Open Player Screen
           </Link>
         </Button>
-        <Button size="sm" className="bg-orange-500 text-slate-950 hover:bg-orange-600">
+        <Button size="sm">
           Save Session
         </Button>
         <Button variant="outline" size="sm">
