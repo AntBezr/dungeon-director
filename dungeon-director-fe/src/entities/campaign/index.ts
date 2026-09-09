@@ -5,5 +5,17 @@ export {
   type CampaignSceneOrder,
   type UpdateCampaignSceneOrderParams,
 } from './api/updateCampaignSceneOrder'
+export {
+  updateCampaignScene,
+  useUpdateCampaignScene,
+  type CampaignSceneUpdate,
+  type UpdateCampaignSceneParams,
+} from './api/updateCampaignScene'
 export { campaignMockHandlers } from './api/mockHandlers';
-export type { CampaignType } from './model/types'
+export type {
+  CampaignScene,
+  CampaignType,
+  SceneMapSettings,
+  SceneMusicSettings,
+  SceneUnit,
+} from './model/types'
