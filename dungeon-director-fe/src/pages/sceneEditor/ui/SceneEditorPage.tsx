@@ -1,25 +1,46 @@
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
-import { useCampaign, type CampaignType } from '@entities/campaign'
+import {
+  useCampaign,
+  useUpdateCampaignScene,
+  type CampaignScene,
+  type SceneMapSettings,
+  type SceneUnit,
+  type SceneUnitType,
+} from '@entities/campaign'
 import { ROUTES } from '@shared/models/routes'
 
-import { AssetsLibrary } from './AssetsLibrary'
 import { SceneCanvas } from './SceneCanvas'
 import { SceneEditorFooter } from './SceneEditorFooter'
 import { SceneEditorHeader } from './SceneEditorHeader'
 import { ScenePropertiesPanel } from './ScenePropertiesPanel'
+import { SceneUnitsPanel } from './SceneUnitsPanel'
 
-type CampaignScene = CampaignType['scenes'][number]
+const defaultMap: SceneMapSettings = {
+  imageUrl: null,
+  rotation: 0,
+  zoom: 1,
+  position: {
+    x: 0,
+    y: 0,
+  },
+  grid: {
+    enabled: true,
+    size: 32,
+  },
+}
 
 interface SceneEditorWorkspaceProps {
   initialScene?: CampaignScene
+  campaignId?: string
   workspacePath: string
   onSave: () => void
 }
 
 function SceneEditorWorkspace({
   initialScene,
+  campaignId,
   workspacePath,
   onSave,
 }: SceneEditorWorkspaceProps) {
@@ -30,23 +51,122 @@ function SceneEditorWorkspace({
     initialScene?.description ??
       'Add the situation, what changes when the party arrives, and the decision that moves the session forward.',
   )
-  const [music, setMusic] = useState('Low Strings / Tension Loop')
+  const [approximateDuration, setApproximateDuration] = useState(
+    initialScene?.approximateDuration ?? 45,
+  )
+  const [map, setMap] = useState<SceneMapSettings>(
+    initialScene?.map ?? defaultMap,
+  )
+  const [spotifyUrl, setSpotifyUrl] = useState(initialScene?.music.spotifyUrl ?? '')
+  const [units, setUnits] = useState<SceneUnit[]>(initialScene?.units ?? [])
+  const updateSceneMutation = useUpdateCampaignScene()
+  const canSave = Boolean(initialScene && campaignId)
+
+  function addUnit(unitType: SceneUnitType, monsterIndex: string) {
+    setUnits((currentUnits) => [
+      ...currentUnits,
+      {
+        unitId: crypto.randomUUID(),
+        unitType,
+        character: {
+          source: 'DND_5E_API',
+          resource: 'monsters',
+          index: monsterIndex,
+        },
+        loot: [],
+      },
+    ])
+  }
+
+  function removeUnit(unitId: string) {
+    setUnits((currentUnits) =>
+      currentUnits.filter((unit) => unit.unitId !== unitId),
+    )
+  }
+
+  function giveLoot(unitId: string, equipmentIndex: string) {
+    setUnits((currentUnits) =>
+      currentUnits.map((unit) =>
+        unit.unitId === unitId
+          ? {
+              ...unit,
+              loot: [
+                ...unit.loot,
+                {
+                  source: 'DND_5E_API',
+                  resource: 'equipment',
+                  index: equipmentIndex,
+                },
+              ],
+            }
+          : unit,
+      ),
+    )
+  }
+
+  function removeLoot(unitId: string, equipmentIndex: string) {
+    setUnits((currentUnits) =>
+      currentUnits.map((unit) =>
+        unit.unitId === unitId
+          ? {
+              ...unit,
+              loot: unit.loot.filter((loot) => loot.index !== equipmentIndex),
+            }
+          : unit,
+      ),
+    )
+  }
+
+  function saveScene() {
+    if (!initialScene || !campaignId) {
+      return
+    }
+
+    updateSceneMutation.mutate(
+      {
+        campaignId,
+        sceneUuid: initialScene.sceneUuid,
+        scene: {
+          title: title.trim() || initialScene.title,
+          description,
+          approximateDuration: Math.max(1, approximateDuration),
+          map,
+          music: { spotifyUrl },
+          units,
+        },
+      },
+      { onSuccess: onSave },
+    )
+  }
 
   return (
     <>
-      <div className="grid min-h-162 lg:grid-cols-[240px_minmax(0,1fr)_254px]">
-        <AssetsLibrary />
-        <SceneCanvas sceneName={title} />
+      <div className="grid xl:grid-cols-[minmax(0,1fr)_minmax(320px,360px)]">
+        <SceneCanvas sceneName={title} map={map} onMapChange={setMap} />
         <ScenePropertiesPanel
           title={title}
           description={description}
-          music={music}
+          approximateDuration={approximateDuration}
+          spotifyUrl={spotifyUrl}
           onTitleChange={setTitle}
           onDescriptionChange={setDescription}
-          onMusicChange={setMusic}
+          onDurationChange={setApproximateDuration}
+          onSpotifyUrlChange={setSpotifyUrl}
         />
       </div>
-      <SceneEditorFooter workspacePath={workspacePath} onSave={onSave} />
+      <SceneUnitsPanel
+        units={units}
+        onAddUnit={addUnit}
+        onRemoveUnit={removeUnit}
+        onGiveLoot={giveLoot}
+        onRemoveLoot={removeLoot}
+      />
+      <SceneEditorFooter
+        workspacePath={workspacePath}
+        onSave={saveScene}
+        isSaving={updateSceneMutation.isPending}
+        canSave={canSave}
+      />
     </>
   )
 }
@@ -75,6 +195,7 @@ export function SceneEditorPage() {
         <SceneEditorWorkspace
           key={editedScene?.sceneUuid ?? 'new-scene'}
           initialScene={editedScene}
+          campaignId={campaignId}
           workspacePath={workspacePath}
           onSave={() => {
             void navigate(workspacePath)
