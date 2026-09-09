@@ -18,4 +18,5 @@ export type {
   SceneMapSettings,
   SceneMusicSettings,
   SceneUnit,
+  SceneUnitType,
 } from './model/types'

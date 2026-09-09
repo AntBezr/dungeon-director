@@ -50,6 +50,62 @@ function createScenes(card: CampaignCardType, sceneTitles: string[]): Scene[] {
       description: `${card.title}: ${title.toLowerCase()}. This prepared beat includes a clear hook, a table decision, and a useful output for the next scene.`,
       approximateDuration: [35, 45, 60, 75][index % 4],
       order: index + 1,
+      map: {
+        imageUrl: null,
+        rotation: 0,
+        zoom: 1,
+        position: {
+          x: 0,
+          y: 0,
+        },
+        grid: {
+          enabled: true,
+          size: 32,
+        },
+      },
+      music: {
+        spotifyUrl:
+          index === 0
+            ? 'https://open.spotify.com/playlist/37i9dQZF1DXa2PvUpywmrr'
+            : '',
+      },
+      units:
+        index === 0
+          ? [
+              {
+                unitId: `${card.campaignId}-scene-${sceneNumber}-npc-mage`,
+                unitType: 'NPC',
+                character: {
+                  source: 'DND_5E_API',
+                  resource: 'monsters',
+                  index: 'mage',
+                },
+                loot: [
+                  {
+                    source: 'DND_5E_API',
+                    resource: 'equipment',
+                    index: 'longsword',
+                  },
+                ],
+              },
+              {
+                unitId: `${card.campaignId}-scene-${sceneNumber}-monster-rust-monster`,
+                unitType: 'MONSTER',
+                character: {
+                  source: 'DND_5E_API',
+                  resource: 'monsters',
+                  index: 'rust-monster',
+                },
+                loot: [
+                  {
+                    source: 'DND_5E_API',
+                    resource: 'equipment',
+                    index: 'light-crossbow',
+                  },
+                ],
+              },
+            ]
+          : [],
     }
   })
 }
