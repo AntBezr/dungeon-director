@@ -4,117 +4,153 @@ import { ROUTES } from '@shared/models/routes'
 
 export const router = createBrowserRouter([
   {
+    hydrateFallbackElement: (
+      <main className="grid min-h-svh place-items-center bg-background text-sm text-muted-foreground">
+        Loading…
+      </main>
+    ),
     lazy: async () => {
       const [{ App }, { PageNotFound }] = await Promise.all([
         import('../app'),
         import('@pages/error'),
       ])
-
-      return {
-        Component: App,
-        ErrorBoundary: PageNotFound,
-      }
+      return { Component: App, ErrorBoundary: PageNotFound }
     },
     children: [
       {
         path: ROUTES.LOGIN,
         lazy: async () => {
-          const { Login } = await import('@pages/login')
-          return { Component: Login }
+          const { AuthPage } = await import('@pages/auth')
+          return { Component: AuthPage }
         },
       },
       {
-        path: ROUTES.HOME,
+        path: ROUTES.REGISTER,
         lazy: async () => {
-          const { HomePage } = await import('@pages/home')
-          return { Component: HomePage }
+          const { AuthPage } = await import('@pages/auth')
+          return { Component: AuthPage }
         },
       },
       {
-        path: ROUTES.CAMPAIGNWORKSPACE.BASE,
+        path: ROUTES.DEMO,
         lazy: async () => {
-          const { CampaignWorkspacePage } =
-            await import('@pages/campaignWorkspace')
-          return { Component: CampaignWorkspacePage }
+          const { DemoRedirectPage } = await import('@pages/auth')
+          return { Component: DemoRedirectPage }
         },
       },
       {
-        path: ROUTES.CAMPAIGNWORKSPACE.SCENEEDITOR,
+        path: ROUTES.COMPENDIUM,
         lazy: async () => {
-          const { SceneEditorPage } = await import('@pages/sceneEditor')
-          return { Component: SceneEditorPage }
+          const { CompendiumPage } = await import('@pages/compendium')
+          return { Component: CompendiumPage }
         },
       },
       {
-        path: ROUTES.ACTIVEGAME.MASTERSCREEN,
+        path: ROUTES.GAMES,
         lazy: async () => {
-          const { GameMasterScreenPage } = await import('@pages/gameMasterScreen')
-          return { Component: GameMasterScreenPage }
+          const { GamesPage } = await import('@pages/games')
+          return { Component: GamesPage }
         },
       },
       {
-        path: ROUTES.ACTIVEGAME.PLAYERSSCREEN,
+        path: `${ROUTES.GAMES}/new`,
         lazy: async () => {
-          const { PlayerScreenPage } = await import('@pages/playerScreen')
-          return { Component: PlayerScreenPage }
+          const { GameFormPage } = await import('@pages/games')
+          return { Component: GameFormPage }
         },
       },
       {
-        path: ROUTES.GLOSSARY.BASE,
+        path: ROUTES.GAME.PLAYER_VIEW,
         lazy: async () => {
-          const { GlossaryLayout } =
-            await import('@pages/glossary/ui/GlossaryLayout')
-          return { Component: GlossaryLayout }
+          const { PlayerViewPage } = await import('@pages/game')
+          return { Component: PlayerViewPage }
+        },
+      },
+      {
+        path: ROUTES.GAME.BASE,
+        lazy: async () => {
+          const { GameLayoutPage } = await import('@pages/game')
+          return { Component: GameLayoutPage }
         },
         children: [
           {
             index: true,
             lazy: async () => {
-              const { GlossaryHome } =
-                await import('@pages/glossary/ui/GlossaryHome')
-              return { Component: GlossaryHome }
+              const { GameIndexRedirect } = await import('@pages/game')
+              return { Component: GameIndexRedirect }
             },
           },
           {
-            path: 'creatures/monsters',
+            path: 'edit',
             lazy: async () => {
-              const { MonstersPage } =
-                await import('@pages/glossary/ui/MonstersPage')
-              return { Component: MonstersPage }
+              const { GameFormPage } = await import('@pages/games')
+              return { Component: GameFormPage }
             },
           },
           {
-            path: 'creatures/monsters/:monsterId',
+            path: 'sessions',
             lazy: async () => {
-              const { MonsterDetailsPage } =
-                await import('@pages/glossary/ui/MonsterDetailsPage')
-              return { Component: MonsterDetailsPage }
+              const { GameSessionsPage } = await import('@pages/game')
+              return { Component: GameSessionsPage }
             },
           },
           {
-            path: 'creatures/npcs',
+            path: 'sessions/:sessionId',
             lazy: async () => {
-              const { NpcsPage } = await import('@pages/glossary/ui/NpcsPage')
-              return { Component: NpcsPage }
+              const { SessionPlanPage } = await import('@pages/game')
+              return { Component: SessionPlanPage }
             },
           },
           {
-            path: 'creatures/npcs/:npcId',
+            path: 'sessions/:sessionId/play',
             lazy: async () => {
-              const { NpcDetailsPage } =
-                await import('@pages/glossary/ui/NpcDetailsPage')
-              return { Component: NpcDetailsPage }
+              const { SessionPlayPage } = await import('@pages/game')
+              return { Component: SessionPlayPage }
             },
           },
           {
-            path: 'equipment/weapons',
+            path: 'scenes',
             lazy: async () => {
-              const { WeaponsPage } =
-                await import('@pages/glossary/ui/WeaponsPage')
-              return { Component: WeaponsPage }
+              const { SceneLibraryPage } = await import('@pages/game')
+              return { Component: SceneLibraryPage }
+            },
+          },
+          {
+            path: 'scenes/presets/:presetId',
+            lazy: async () => {
+              const { ScenePresetPage } = await import('@pages/game')
+              return { Component: ScenePresetPage }
+            },
+          },
+          {
+            path: 'scenes/:sceneId/edit',
+            lazy: async () => {
+              const { SceneEditorPage } = await import('@pages/game')
+              return { Component: SceneEditorPage }
+            },
+          },
+          {
+            path: 'about',
+            lazy: async () => {
+              const { GameAboutPage } = await import('@pages/game')
+              return { Component: GameAboutPage }
             },
           },
         ],
+      },
+      {
+        path: ROUTES.PROFILE,
+        lazy: async () => {
+          const { ProfilePage } = await import('@pages/profile')
+          return { Component: ProfilePage }
+        },
+      },
+      {
+        path: '*',
+        lazy: async () => {
+          const { PageNotFound } = await import('@pages/error')
+          return { Component: PageNotFound }
+        },
       },
     ],
   },

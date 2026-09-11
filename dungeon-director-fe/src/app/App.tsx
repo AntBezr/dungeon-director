@@ -4,15 +4,17 @@ import { ROUTES } from '@shared/models/routes'
 import { AppSidebar } from '@widgets/app-sidebar'
 
 export function App() {
-  const isPlayerScreen = useMatch(ROUTES.ACTIVEGAME.PLAYERSSCREEN)
+  const isLoginPage = Boolean(useMatch(ROUTES.LOGIN))
+  const isRegisterPage = Boolean(useMatch(ROUTES.REGISTER))
+  const isPlayerPage = Boolean(useMatch(ROUTES.GAME.PLAYER_VIEW))
 
-  if (isPlayerScreen) {
+  if (isLoginPage || isRegisterPage || isPlayerPage) {
     return <Outlet />
   }
 
   return (
     <div className="min-h-svh bg-background font-sans text-foreground antialiased">
-      <div className="mx-auto flex min-h-svh w-full">
+      <div className="mx-auto min-h-svh w-full lg:flex">
         <AppSidebar />
         <div className="min-w-0 flex-1">
           <Outlet />

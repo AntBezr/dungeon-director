@@ -8,7 +8,7 @@ This project uses a lightweight FSD layout. Keep layers small and add a deeper s
 - `pages` - route-level screens. A page may compose widgets, features, entities, and shared UI.
 - `widgets` - large page blocks that combine multiple features or entities.
 - `features` - user actions and business flows, for example `create-session` or `move-token`.
-- `entities` - domain models and their UI, for example `character`, `map`, `encounter`.
+- `entities` - domain models and their UI, for example `game`, `scene`, `session`.
 - `shared` - reusable code without project business knowledge: UI primitives, utilities, assets, API client, config.
 
 ## Import Rules
@@ -19,7 +19,7 @@ This project uses a lightweight FSD layout. Keep layers small and add a deeper s
 - Prefer aliases over long parent traversals:
 
 ```ts
-import { HomePage } from '@pages/home'
+import { GamesPage } from '@pages/games'
 import { cn } from '@shared/lib/cn'
 ```
 

@@ -1,53 +1,27 @@
-import 'react-router-dom'
-
 export const ROUTES = {
   LOGIN: '/login',
-  HOME: '/',
-  CAMPAIGNWORKSPACE: {
-    BASE: '/campaignWorkspace/:campaignId',
-    SCENEEDITOR: '/campaignWorkspace/:campaignId/sceneEditor',
+  REGISTER: '/register',
+  DEMO: '/demo',
+  COMPENDIUM: '/compendium',
+  GAMES: '/games',
+  GAME: {
+    BASE: '/games/:gameId',
+    EDIT: '/games/:gameId/edit',
+    SESSIONS: '/games/:gameId/sessions',
+    SESSION: '/games/:gameId/sessions/:sessionId',
+    SESSION_PLAY: '/games/:gameId/sessions/:sessionId/play',
+    PLAYER_VIEW: '/games/:gameId/sessions/:sessionId/players',
+    SCENES: '/games/:gameId/scenes',
+    SCENE_PRESET: '/games/:gameId/scenes/presets/:presetId',
+    SCENE_EDITOR: '/games/:gameId/scenes/:sceneId/edit',
+    ABOUT: '/games/:gameId/about',
   },
-  ACTIVEGAME: {
-    MASTERSCREEN: '/game/:gameId',
-    PLAYERSSCREEN: '/game/:gameId/players',
-  },
-  GLOSSARY: {
-    BASE: '/glossary',
-    CREATURES: {
-      MONSTERS: '/glossary/creatures/monsters',
-      MONSTER: '/glossary/creatures/monsters/:monsterId',
-      NPCS: '/glossary/creatures/npcs',
-      NPC: '/glossary/creatures/npcs/:npcId',
-    },
-    EQUIPMENT: {
-      WEAPONS: '/glossary/equipment/weapons',
-    },
-  },
+  PROFILE: '/profile',
 } as const
 
-export type PathParams = {
-  [ROUTES.CAMPAIGNWORKSPACE.BASE]: {
-    campaignId: string
-  }
-  [ROUTES.CAMPAIGNWORKSPACE.SCENEEDITOR]: {
-    campaignId: string
-  }
-  [ROUTES.ACTIVEGAME.MASTERSCREEN]: {
-    gameId: string
-  }
-  [ROUTES.ACTIVEGAME.PLAYERSSCREEN]: {
-    gameId: string
-  }
-  [ROUTES.GLOSSARY.CREATURES.MONSTERS]: {
-    monsterId: string
-  }
-  [ROUTES.GLOSSARY.CREATURES.NPCS]: {
-    npcId: string
-  }
-}
-
-declare module 'react-router-dom' {
-  interface Register {
-    params: PathParams
-  }
+export function buildRoute(template: string, params: Record<string, string>) {
+  return Object.entries(params).reduce(
+    (path, [key, value]) => path.replace(`:${key}`, encodeURIComponent(value)),
+    template,
+  )
 }

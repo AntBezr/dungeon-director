@@ -1,13 +1,10 @@
 export class ApiError extends Error {
-  public readonly status: number;
+  public readonly status: number
 
-  constructor(
-    status: number,
-    message: string,
-  ) {
-    super(message);
-    this.name = 'ApiError';
-    this.status = status;
+  constructor(status: number, message: string) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
   }
 }
 
@@ -26,11 +23,11 @@ export async function apiRequest<T>(
       Accept: 'application/json',
       ...init?.headers,
     },
-  });
+  })
 
   if (!response.ok) {
-    throw new ApiError(response.status, `Request failed: ${response.status}`);
+    throw new ApiError(response.status, `Request failed: ${response.status}`)
   }
 
-  return response.json() as Promise<T>;
+  return response.json() as Promise<T>
 }

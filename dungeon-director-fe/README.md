@@ -1,6 +1,6 @@
-# Dungeon Director FE
+# Scenes
 
-Frontend for Dungeon Director, built with React, TypeScript, Vite, React Router, Tailwind CSS, and a simplified Feature-Sliced Design structure.
+Frontend for preparing in-person D&D sessions: campaigns, sessions, session plans, and a scene library.
 
 ## Scripts
 
@@ -38,13 +38,17 @@ See `src/README.md` for the project rules and examples.
 
 Components are styled with Tailwind utility classes. The only CSS file is `src/app/styles/index.css`, which imports Tailwind.
 
-## Server state and mocks
+## Demo data and server layer
 
 TanStack Query is configured once in `src/main.tsx` with the shared client from
 `src/shared/api/query-client.ts`. Put a request function and its `useQuery` /
 `useMutation` hooks in the relevant entity's `api/` directory.
 
-In development, MSW starts before React renders. Add mock endpoint handlers to
-the entity (for example, `src/entities/campaign/api/mockHandlers.ts`) and
-register them in `src/app/mocks/handlers.ts`. Hooks keep using `fetch`, so no
-component changes are needed when the real backend is connected.
+Until Django is connected, the project uses the typed asynchronous adapter at
+`src/entities/game/api/demo-game-adapter.ts`. It stores the demo campaign in
+`localStorage`, while components use only the hooks in
+`src/entities/game/api/hooks.ts`. The adapter can be replaced with a backend
+implementation without changing the hook contract.
+
+Map, grid, and tokens are intentionally not implemented yet. The scene editor
+is a clean foundation for the next stage.

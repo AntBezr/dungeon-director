@@ -9,24 +9,10 @@ import { RouterProvider } from 'react-router-dom'
 
 applyTheme(getInitialTheme())
 
-async function enableMocking() {
-  if (!import.meta.env.DEV) {
-    return
-  }
-
-  const { worker } = await import('@app/mocks/browser')
-
-  return worker.start({
-    onUnhandledRequest: 'bypass',
-  })
-}
-// eslint-disable-next-line
-enableMocking().then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <Providers>
-        <RouterProvider router={router} />
-      </Providers>
-    </StrictMode>,
-  )
-})
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Providers>
+      <RouterProvider router={router} />
+    </Providers>
+  </StrictMode>,
+)

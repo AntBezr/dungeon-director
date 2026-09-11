@@ -1,4 +1,4 @@
-import { QueryClient, type QueryClientConfig } from '@tanstack/query-core';
+import { QueryClient, type QueryClientConfig } from '@tanstack/query-core'
 
 const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
@@ -9,6 +9,6 @@ const queryClientConfig: QueryClientConfig = {
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30_000),
     },
   },
-};
+}
 
-export const queryClient = new QueryClient(queryClientConfig);
+export const queryClient = new QueryClient(queryClientConfig)
