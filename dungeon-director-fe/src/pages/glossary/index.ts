@@ -1,7 +1,0 @@
-export { GlossaryHome } from './ui/GlossaryHome'
-export { GlossaryLayout } from './ui/GlossaryLayout'
-export { MonsterDetailsPage } from './ui/MonsterDetailsPage'
-export { MonstersPage } from './ui/MonstersPage'
-export { NpcDetailsPage } from './ui/NpcDetailsPage'
-export { NpcsPage } from './ui/NpcsPage'
-export { WeaponsPage } from './ui/WeaponsPage'
