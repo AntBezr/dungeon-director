@@ -124,6 +124,7 @@ body {
   margin: 0;
   background: var(--app-background);
   color: var(--foreground);
+  overflow-wrap: anywhere;
 }
 
 /* The existing screens use the slate scale as semantic tokens. In light mode,

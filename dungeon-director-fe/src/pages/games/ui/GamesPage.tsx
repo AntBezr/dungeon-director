@@ -40,16 +40,16 @@ function GameCard({
   return (
     <Card className="h-full transition-shadow hover:shadow-md">
       <CardHeader className="gap-3">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-start justify-between gap-3">
           <Badge variant={game.status === 'active' ? 'default' : 'secondary'}>
             {gameStatusLabels[game.status]}
           </Badge>
-          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <p className="flex min-w-0 items-center gap-1.5 break-words text-xs text-muted-foreground">
             <CalendarDays className="size-3.5" aria-hidden="true" />
             {formatDate(game.startDate)}
           </p>
         </div>
-        <div>
+        <div className="min-w-0">
           <CardTitle className="text-xl">{game.title}</CardTitle>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             {game.description}
@@ -129,7 +129,7 @@ export function GamesPage() {
                   permanently deleted.
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button
                   type="button"
                   variant="outline"

@@ -17,9 +17,11 @@ import {
   useDeleteSession,
   useMoveSceneInSession,
   useRemoveSceneFromSession,
+  useGameRuntime,
   useScenes,
   useSession,
   useSessionScenes,
+  useStartGame,
   useUpdateSession,
   useUpdateSessionScene,
 } from '@entities/game'
@@ -41,6 +43,7 @@ export function SessionPlanPage() {
   const { gameId, sessionId } = useParams()
   const navigate = useNavigate()
   const sessionQuery = useSession(sessionId)
+  const runtimeQuery = useGameRuntime(sessionId)
   const scenesQuery = useScenes(gameId)
   const entriesQuery = useSessionScenes(sessionId)
   const addScene = useAddSceneToSession()
@@ -50,6 +53,7 @@ export function SessionPlanPage() {
   const updateSession = useUpdateSession()
   const updateSessionScene = useUpdateSessionScene()
   const deleteSession = useDeleteSession()
+  const startGame = useStartGame()
   const [selectedSceneId, setSelectedSceneId] = useState('')
   const [isCreatingScene, setIsCreatingScene] = useState(false)
   const [newSceneTitle, setNewSceneTitle] = useState('')
@@ -66,6 +70,25 @@ export function SessionPlanPage() {
     gameId && sessionId
       ? buildRoute(ROUTES.GAME.SESSION_PLAY, { gameId, sessionId })
       : ROUTES.GAMES
+
+  async function openGame(entryId?: string) {
+    if (!gameId || !sessionId) return
+
+    const entries = entriesQuery.data ?? []
+    const entry =
+      entries.find((candidate) => candidate.id === entryId) ?? entries[0]
+    if (!entry) return
+
+    if (!runtimeQuery.data) {
+      await startGame.mutateAsync({
+        sessionId,
+        sceneId: entry.scene.id,
+        sessionSceneId: entry.id,
+      })
+    }
+
+    void navigate(`${playPath}?scene=${encodeURIComponent(entry.id)}`)
+  }
 
   async function addSelectedScene() {
     if (!sessionId || !selectedSceneId) return
@@ -137,7 +160,7 @@ export function SessionPlanPage() {
       <header className="mt-4 flex flex-col gap-4 border-b border-border pb-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-2xl font-semibold tracking-tight">
+            <h2 className="break-words text-2xl font-semibold tracking-tight">
               {session.title}
             </h2>
             <Badge
@@ -151,11 +174,20 @@ export function SessionPlanPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button asChild size="sm">
-            <Link to={playPath}>
-              <Play className="size-4" aria-hidden="true" />
-              Play session
-            </Link>
+          <Button
+            type="button"
+            size="sm"
+            disabled={
+              !entriesQuery.data?.length ||
+              startGame.isPending ||
+              runtimeQuery.isPending
+            }
+            onClick={() => {
+              void openGame()
+            }}
+          >
+            <Play className="size-4" aria-hidden="true" />
+            {startGame.isPending ? 'Starting…' : 'Play session'}
           </Button>
           <Button
             type="button"
@@ -276,7 +308,6 @@ export function SessionPlanPage() {
               </Card>
             )}
             {entriesQuery.data?.map((entry, index, entries) => {
-              const entryPlayPath = `${playPath}?scene=${encodeURIComponent(entry.id)}`
               const editorPath = `${buildRoute(ROUTES.GAME.SCENE_EDITOR, { gameId: gameId ?? '', sceneId: entry.scene.id })}?sessionId=${encodeURIComponent(sessionId ?? '')}&sessionSceneId=${encodeURIComponent(entry.id)}`
 
               return (
@@ -287,12 +318,22 @@ export function SessionPlanPage() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h4 className="font-semibold">{entry.scene.title}</h4>
-                        <Button asChild size="sm" className="h-7">
-                          <Link to={entryPlayPath}>
-                            <Play className="size-3.5" aria-hidden="true" />
-                            Play
-                          </Link>
+                        <h4 className="break-words font-semibold">
+                          {entry.scene.title}
+                        </h4>
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="h-7"
+                          disabled={
+                            startGame.isPending || runtimeQuery.isPending
+                          }
+                          onClick={() => {
+                            void openGame(entry.id)
+                          }}
+                        >
+                          <Play className="size-3.5" aria-hidden="true" />
+                          Play
                         </Button>
                         <Button
                           asChild

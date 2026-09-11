@@ -8,7 +8,7 @@ import {
   Square,
   Waypoints,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 
 import {
@@ -297,24 +297,38 @@ export function SessionPlayPage() {
   const entries = entriesQuery.data ?? []
   const requestedEntryId = searchParams.get('scene')
   const runtime = runtimeQuery.data
+  const startedSessionIdRef = useRef<string | null>(null)
   const activeEntry = runtime
     ? (entries.find((entry) => entry.id === runtime.activeSessionSceneId) ??
       entries.find((entry) => entry.scene.id === runtime.activeSceneId))
     : undefined
   const activeScene = activeEntry?.scene
+  const entryToStart =
+    entries.find((candidate) => candidate.id === requestedEntryId) ?? entries[0]
 
-  async function startFirstScene() {
-    if (!sessionId) return
-    const entry =
-      entries.find((candidate) => candidate.id === requestedEntryId) ??
-      entries[0]
-    if (!entry) return
-    await startGame.mutateAsync({
+  const startSelectedScene = useCallback(() => {
+    if (!sessionId || !entryToStart) return
+    startedSessionIdRef.current = sessionId
+    startGame.mutate({
       sessionId,
-      sceneId: entry.scene.id,
-      sessionSceneId: entry.id,
+      sceneId: entryToStart.scene.id,
+      sessionSceneId: entryToStart.id,
     })
-  }
+  }, [entryToStart, sessionId, startGame])
+
+  useEffect(() => {
+    if (
+      runtime ||
+      !entryToStart ||
+      !sessionId ||
+      startGame.isPending ||
+      startGame.isError ||
+      startedSessionIdRef.current === sessionId
+    )
+      return
+
+    startSelectedScene()
+  }, [entryToStart, runtime, sessionId, startGame, startSelectedScene])
 
   if (
     sessionQuery.isPending ||
@@ -338,23 +352,32 @@ export function SessionPlayPage() {
         <Card className="mx-auto max-w-xl">
           <CardContent className="pt-6 text-center">
             <Gamepad2 className="mx-auto size-8 text-primary" />
-            <h2 className="mt-3 text-xl font-semibold">Game has not started</h2>
+            <h2 className="mt-3 text-xl font-semibold">
+              {entryToStart ? 'Starting game…' : 'No scenes in this session'}
+            </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              A runtime copy of the selected scene will be created. It will not
-              modify saved preparation.
+              {entryToStart
+                ? 'A runtime copy of the selected scene is being created. It will not modify saved preparation.'
+                : 'Add a scene to the session plan before starting the game.'}
             </p>
+            {startGame.isError && (
+              <p className="mt-3 text-sm text-destructive">
+                {startGame.error.message}
+              </p>
+            )}
             <div className="mt-5 flex justify-center gap-2">
               <Button asChild variant="outline">
                 <Link to={planPath}>Go to plan</Link>
               </Button>
               <Button
                 type="button"
-                disabled={!entries[0] || startGame.isPending}
+                disabled={!entryToStart || startGame.isPending}
                 onClick={() => {
-                  void startFirstScene()
+                  startedSessionIdRef.current = null
+                  startSelectedScene()
                 }}
               >
-                Start game
+                {startGame.isPending ? 'Starting…' : 'Retry start'}
               </Button>
             </div>
           </CardContent>

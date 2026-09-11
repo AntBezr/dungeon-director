@@ -26,7 +26,7 @@ function NavigationLink({ label, to, icon: Icon, end }: NavigationItem) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+        `flex min-w-0 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
           isActive
             ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-sm'
             : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
@@ -34,7 +34,7 @@ function NavigationLink({ label, to, icon: Icon, end }: NavigationItem) {
       }
     >
       <Icon className="size-4" aria-hidden="true" />
-      {label}
+      <span className="min-w-0 break-words">{label}</span>
     </NavLink>
   )
 }
@@ -75,13 +75,13 @@ export function AppSidebar() {
             )}
           </Button>
         </div>
-        <nav className="mt-3 flex gap-2" aria-label="Main navigation">
+        <nav className="mt-3 flex flex-wrap gap-2" aria-label="Main navigation">
           {navigation.map(({ label, to, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium ${
+                `inline-flex max-w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium ${
                   isActive
                     ? 'bg-sidebar-primary text-sidebar-primary-foreground'
                     : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'

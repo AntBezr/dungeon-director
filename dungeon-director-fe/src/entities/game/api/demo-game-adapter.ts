@@ -20,8 +20,170 @@ import type {
 } from '../model/types'
 
 const storageKey = 'scenes-demo-database-v3'
+const demoContentVersionKey = `${storageKey}-content-version`
+const demoContentVersion = '2'
 const defaultPageSize = 20
 const heroIcons = ['🜁', '⚔️', '✦', '🛡️', '☾', '🗝️']
+
+const demoTextTranslations: Record<string, string> = {
+  'Пепел над Ривермарком': 'Ashes over Rivermark',
+  'Город на речном тракте медленно задыхается от пепельных бурь и чужих интриг.':
+    'A town on the river road slowly suffocates beneath ash storms and foreign intrigue.',
+  'Ночь в «Медной лисе»': 'A Night at the Copper Fox',
+  'Знакомство с таверной, тревожный разговор и взрыв, меняющий вечер.':
+    'A tavern introduction, a tense conversation, and an explosion that changes the night.',
+  'Подготовка следующей встречи кампании «Пепел над Ривермарком».':
+    'Preparation for the next meeting in the Ashes over Rivermark campaign.',
+  Ася: 'Aya',
+  Влад: 'Vlad',
+  Ира: 'Ira',
+  Миша: 'Misha',
+  Таверна: 'The Copper Fox Tavern',
+  'Шумный вечер в «Медной лисе»: два противника, союзник и скрытый сундук.':
+    'A noisy night at the Copper Fox: two enemies, an ally, and a hidden chest.',
+  'Начать с живого зала и дать героям время освоиться.':
+    'Start with a busy hall and give the party time to settle in.',
+  'Начать с живого зала.': 'Start with a busy hall.',
+  'Хозяйка таверны': 'Tavern keeper',
+  Громила: 'Thug',
+  'Запертый сундук': 'Locked chest',
+  'Таверна после взрыва': 'The Copper Fox Aftermath',
+  'Та же таверна после взрыва. Это отдельная независимая подготовка.':
+    'The same tavern after the explosion. This is independent preparation.',
+  'Использовать сразу после взрыва.': 'Use immediately after the explosion.',
+  'Осколки стола': 'Broken table',
+  'Лесная дорога': 'Forest Road',
+  'Дорога к Ривермарку, где следы в грязи ведут не туда, куда должны.':
+    'The road to Rivermark, where muddy tracks lead somewhere they should not.',
+  'Запасной путь, если герои покинут город.':
+    'A fallback route if the party leaves town.',
+  Волк: 'Wolf',
+  'Странные следы': 'Unusual tracks',
+  'Вернуться к исходной подготовке для флешбека.':
+    'Return to the original preparation for a flashback.',
+  'Придорожный лагерь': 'Roadside Camp',
+  'Системная заготовка для отдыха, переговоров или ночной тревоги.':
+    'A system template for resting, negotiations, or a nighttime alarm.',
+  'Системная заготовка': 'System template',
+  'Небольшая таверна': 'Small Tavern',
+  'Нейтральная заготовка интерьера с местом для разговоров и столкновения.':
+    'A neutral interior template with room for conversation and conflict.',
+}
+const defaultSessionSceneIds = new Set([
+  'session-scene-tavern-1',
+  'session-scene-tavern-aftermath',
+  'session-scene-tavern-2',
+  'session-scene-forest-road',
+])
+const defaultPartyTokenIds = new Set([
+  'hero-asya',
+  'hero-vlad',
+  'hero-ira',
+  'hero-misha',
+])
+const legacyPlayerNames = ['Ася', 'Влад', 'Ира', 'Миша']
+const englishPlayerNames = ['Aya', 'Vlad', 'Ira', 'Misha']
+const englishSeedScenes = createDemoDatabase().scenes
+
+function translateDefaultText(value: string) {
+  return demoTextTranslations[value] ?? value
+}
+
+function hasLegacyMapTitle(image: string | null, title: string) {
+  return image?.includes(encodeURIComponent(title)) ?? false
+}
+
+function hasLegacyPlayerNames(playerNames: string[]) {
+  return (
+    playerNames.length === legacyPlayerNames.length &&
+    playerNames.every((name, index) => name === legacyPlayerNames[index])
+  )
+}
+
+function migrateDemoScene(scene: Scene): Scene {
+  const isTavern =
+    scene.id === 'scene-copper-fox' || scene.id === 'scene-copper-fox-aftermath'
+  const isForest = scene.id === 'scene-forest-road'
+  if (!isTavern && !isForest) return scene
+
+  const replacementImage = isTavern
+    ? (englishSeedScenes[0]?.thumbnail ?? null)
+    : isForest
+      ? (englishSeedScenes[2]?.thumbnail ?? null)
+      : null
+  const legacyMapTitle = isTavern ? 'Медная лисица' : 'Лесная дорога'
+
+  return {
+    ...scene,
+    title: translateDefaultText(scene.title),
+    description: translateDefaultText(scene.description),
+    notes: translateDefaultText(scene.notes),
+    thumbnail: hasLegacyMapTitle(scene.thumbnail, legacyMapTitle)
+      ? replacementImage
+      : scene.thumbnail,
+    map: hasLegacyMapTitle(scene.map.backgroundImage, legacyMapTitle)
+      ? { ...scene.map, backgroundImage: replacementImage }
+      : scene.map,
+    tokens: scene.tokens.map((token) => ({
+      ...token,
+      name: translateDefaultText(token.name),
+    })),
+  }
+}
+
+function migrateDemoContent(database: DemoDatabase): DemoDatabase {
+  if (localStorage.getItem(demoContentVersionKey) === demoContentVersion)
+    return database
+
+  const demoGame = database.games.find((game) => game.id === 'game-rivermark')
+  if (!demoGame) return database
+
+  return {
+    ...database,
+    games: database.games.map((game) =>
+      game.id === demoGame.id
+        ? {
+            ...game,
+            title: translateDefaultText(game.title),
+            description: translateDefaultText(game.description),
+            playerNames: hasLegacyPlayerNames(game.playerNames)
+              ? englishPlayerNames
+              : game.playerNames,
+          }
+        : game,
+    ),
+    partyTokens: database.partyTokens.map((token) =>
+      defaultPartyTokenIds.has(token.id)
+        ? { ...token, name: translateDefaultText(token.name) }
+        : token,
+    ),
+    sessions: database.sessions.map((session) =>
+      session.id === 'session-copper-fox' ||
+      session.id.startsWith('session-rivermark-')
+        ? {
+            ...session,
+            title:
+              session.id === 'session-copper-fox'
+                ? translateDefaultText(session.title)
+                : session.title.replace(/^Сессия (\d+)$/, 'Session $1'),
+            description: translateDefaultText(session.description),
+          }
+        : session,
+    ),
+    scenes: database.scenes.map(migrateDemoScene),
+    sessionScenes: database.sessionScenes.map((entry) =>
+      defaultSessionSceneIds.has(entry.id)
+        ? { ...entry, notes: translateDefaultText(entry.notes) }
+        : entry,
+    ),
+    scenePresets: database.scenePresets.map((preset) => ({
+      ...preset,
+      title: translateDefaultText(preset.title),
+      description: translateDefaultText(preset.description),
+      sourceLabel: translateDefaultText(preset.sourceLabel),
+    })),
+  }
+}
 
 function delay() {
   return new Promise<void>((resolve) => window.setTimeout(resolve, 120))
@@ -45,7 +207,9 @@ function readDatabase() {
   }
 
   try {
-    return JSON.parse(storedValue) as DemoDatabase
+    const database = migrateDemoContent(JSON.parse(storedValue) as DemoDatabase)
+    writeDatabase(database)
+    return database
   } catch {
     const database = createDemoDatabase()
     writeDatabase(database)
@@ -55,6 +219,7 @@ function readDatabase() {
 
 function writeDatabase(database: DemoDatabase) {
   localStorage.setItem(storageKey, JSON.stringify(database))
+  localStorage.setItem(demoContentVersionKey, demoContentVersion)
 }
 
 function requireGame(database: DemoDatabase, gameId: string) {

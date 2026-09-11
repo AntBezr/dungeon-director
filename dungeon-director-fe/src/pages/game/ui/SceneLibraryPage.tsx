@@ -154,7 +154,7 @@ export function SceneLibraryPage() {
           Search
         </Button>
         <select
-          className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+          className="h-9 min-w-0 max-w-full rounded-md border border-input bg-background px-3 text-sm"
           value={targetSessionId}
           onChange={(event) => setTargetSessionId(event.target.value)}
           aria-label="Choose a session to add the scene"

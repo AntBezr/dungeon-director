@@ -60,9 +60,9 @@ export function GameLayoutPage() {
         </Button>
         <header className="mt-4 border-b border-border pb-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
+            <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h1 className="break-words text-3xl font-semibold tracking-tight sm:text-4xl">
                   {game.title}
                 </h1>
                 <Badge

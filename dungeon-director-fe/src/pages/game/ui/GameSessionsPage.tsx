@@ -180,9 +180,9 @@ export function GameSessionsPage() {
         {sessionsQuery.data?.results.map((session) => (
           <Card key={session.id} className="py-4">
             <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
+              <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-semibold">{session.title}</h3>
+                  <h3 className="break-words font-semibold">{session.title}</h3>
                   <Badge
                     variant={
                       session.status === 'active' ? 'default' : 'secondary'
@@ -195,7 +195,7 @@ export function GameSessionsPage() {
                   {session.description || 'No description added'}
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button asChild variant="outline" size="sm">
                   <Link
                     to={buildRoute(ROUTES.GAME.SESSION, {
