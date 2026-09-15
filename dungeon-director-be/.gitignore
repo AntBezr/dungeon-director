@@ -1,0 +1,21 @@
+# Ignore virtual environment directories
+.venv
+.env
+
+# Ignore Python cache directories
+_pycache__/
+
+# Ignore Python bytecode files
+*.py[cod]
+
+# Ignore database files
+/db.sqlite3
+/db.sqlite3-*
+
+# Ignore local settings
+/config/local_settings.py
+/media/
+/staticfiles/
+
+# Ignore Mac system files
+.DS_Store
