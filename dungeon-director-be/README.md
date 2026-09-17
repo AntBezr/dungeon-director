@@ -37,7 +37,6 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 ```
 
 Save the generated value as the `SECRET_KEY` variable in `config/local_settings.py`. Make sure `config/settings.py` imports it.
-
 Keep this file excluded from Git through `.gitignore`. Do not put the key in this README or commit it to the repository.
 
 ### Check the configuration
@@ -63,6 +62,5 @@ Press `Ctrl+C` in the terminal to stop it.
 
 ## Database migrations: current learning stage
 
-Do not apply migrations yet. The custom user model will be connected in Lesson 04, before the initial migrations are applied.
+The initial migrations are applied.
 
-At this stage, a warning about unapplied migrations when starting the server is expected.
